@@ -96,7 +96,6 @@ class JoinDrawContainer extends React.Component {
         const walletAddress = store.get('walletAddress')
         const daiBalance = store.get('daiBalance')
         const chaiBalance = store.get('chaiBalance')
-        // const daiBalance = '1000'
         const joinAmount = store.get('joinAmount');
         const drawAmount = store.get('drawAmount');
         const isSignedIn = walletAddress && walletAddress.length

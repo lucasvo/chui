@@ -20,10 +20,9 @@ export const getData = async function() {
     const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call();
     const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(2);
     const daiAllowance = await dai.methods.allowance(walletAddress, chaiAddress).call();
-    if (daiAllowance != "0") { store.set('allowanceAvailable', true) }
 
     const chai = new web3.eth.Contract(chaiABI, chaiAddress);
-    const chaiBalanceRaw = await chai.methods.balanceOf(walletAddress).call();
+    const chaiBalanceRaw = await chai.methods.dai(walletAddress).call();
     const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(2);
 
     store.set('daiObject', dai)
@@ -54,32 +53,7 @@ export const getDsrData = async function() {
     if (dsrRaw == store.get('dsrRaw')) return
     store.set('dsrRaw', dsrRaw)
     let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(5)
-    store.set('dsr', )
-}
-
-export const signData = async function(web3, fromAddress, data) {
-    return new Promise(function(resolve, reject) {
-        web3.currentProvider.sendAsync({
-                method: "eth_signTypedData_v3",
-                params: [fromAddress, data],
-                from: fromAddress
-            },
-            function(err, result) {
-                if (err) {
-
-                } else {
-                    const r = result.result.slice(0,66)
-                    const s = '0x' + result.result.slice(66,130)
-                    const v = Number('0x' + result.result.slice(130,132))
-                    resolve({
-                        v,
-                        r,
-                        s
-                    })
-                }
-            }
-        );
-    });
+    store.set('dsr', dsr.toString())
 }
 
 

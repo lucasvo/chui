@@ -1,5 +1,4 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import blueGrey from '@material-ui/core/colors/blueGrey';
 import grey from '@material-ui/core/colors/grey';
 
 export default createMuiTheme({
@@ -10,7 +9,6 @@ export default createMuiTheme({
             dark: '#000',
             contrastText: '#fff',
         },
-        // primary: blueGrey,
         secondary: grey,
     },
     overrides: {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { createStore } from '@spyna/react-store'
 
-import NavContainer from './containers/NavContainer'
-import JoinDrawContainer from './containers/JoinDrawContainer'
+import NavContainer from './containers/Nav'
+import JoinDrawContainer from './containers/JoinDraw'
 import DsrInfoContainer from './containers/DsrInfo'
+import MoveDaiContainer from './containers/MoveDai'
 
 import theme from './theme/theme'
 
@@ -63,8 +64,13 @@ class App extends React.Component {
                         <Grid item xs={12}><br/></Grid>
                         <NavContainer />
                         <DsrInfoContainer />
+
                         <Grid item xs={12} className={classes.contentContainer}>
-                            <JoinDrawContainer/>
+                            <JoinDrawContainer />
+                        </Grid>
+
+                        <Grid item xs={12} className={classes.contentContainer}>
+                            <MoveDaiContainer />
                         </Grid>
                     </Grid>
                 </Container>

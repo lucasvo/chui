@@ -1,5 +1,4 @@
 import React from 'react';
-import Web3 from 'web3';
 
 import {withStore} from '@spyna/react-store'
 import {withStyles} from '@material-ui/styles';
@@ -7,11 +6,7 @@ import theme from '../theme/theme'
 import { getDsrData } from '../utils/web3Utils'
 
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Chip from '@material-ui/core/Chip';
-import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles = () => ({
     container: {
@@ -22,10 +17,6 @@ const styles = () => ({
 })
 
 class DsrInfoContainer extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     async componentDidMount() {
         // update data periodically
@@ -40,7 +31,7 @@ class DsrInfoContainer extends React.Component {
     }
 
     render() {
-        const {classes, store} = this.props
+        const {store} = this.props
         const dsr = store.get('dsr')
         const dsrPercent = dsr;
 

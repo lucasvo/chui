@@ -1,6 +1,8 @@
 import React from 'react';
 import { createStore } from '@spyna/react-store'
+import Web3 from 'web3';
 
+import config from './config.json';
 import NavContainer from './containers/Nav'
 import JoinDrawContainer from './containers/JoinDraw'
 import DsrInfoContainer from './containers/DsrInfo'
@@ -33,7 +35,7 @@ const styles = () => ({
 })
 
 const initialState = {
-    web3: null,
+    web3: new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider)),
     walletAddress: '',
     walletConnecting: false,
     walletType: '',

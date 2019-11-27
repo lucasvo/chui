@@ -1,6 +1,6 @@
 import Web3 from "web3";
-import daiABI from '../abi/Dai.abi.json';
 import config from '../config.json';
+import daiABI from '../abi/Dai.abi.json';
 import potABI from '../abi/Pot.abi.json';
 import chaiABI from '../abi/Chai.abi.json';
 import { Decimal } from 'decimal.js-light';
@@ -41,30 +41,20 @@ const DsrDecimal = Decimal.clone({
 
 const secondsInYear = DsrDecimal(60 * 60 * 24 * 365);
 
-export const getChiData = async function() {
+export const getPotData = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
-    const walletAddress = store.get('walletAddress')
-
-    if (!web3 || !walletAddress) return
-    const pot = new web3.eth.Contract(potABI, potAddress)
-    const chiRaw = await pot.methods.chi().call()
-    let chi = new DsrDecimal(chiRaw).div('1e27').toPrecision(5)
-    store.set('chi', chi)
-}
-
-export const getDsrData = async function() {
-    const { store } = this.props
-    const web3 = store.get('web3')
-    const walletAddress = store.get('walletAddress')
-
-    if (!web3 || !walletAddress) return
+    if (!web3) return
     const pot = new web3.eth.Contract(potABI, potAddress)
     const dsrRaw = await pot.methods.dsr().call()
+    const chiRaw = await pot.methods.chi().call()
 
-    if (dsrRaw === store.get('dsrRaw')) return
+    if (dsrRaw === store.get('dsrRaw') && chiRaw === store.get('chiRaw')) return
+    store.set('chiRaw', chiRaw)
     store.set('dsrRaw', dsrRaw)
     let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(5)
+    let chi = new DsrDecimal(chiRaw).div('1e27').toPrecision(5)
+    store.set('chi', chi)
     store.set('dsr', dsr.toString())
 }
 

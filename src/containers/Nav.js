@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import config from '../config.json';
 
 const styles = () => ({
     navContainer: {
@@ -31,7 +32,8 @@ class NavContainer extends React.Component {
     async componentDidMount() {
     }
 
-    render() {
+  render() {
+    const chaiAddress = config.CHAI;
         const {
             classes,
             store
@@ -42,8 +44,8 @@ class NavContainer extends React.Component {
             {<Grid className={classes.navContainer} container alignItems='center'>
               <Grid item xs={6}>
                   <Grid container alignItems='center'>
-                        <Typography variant='h6'>
-                          chai.stablecoin.services<br />
+             <Typography variant='h6'>
+             Interacting with the Kovan Chai contract at: <a target="_blank" href={"https://kovan.etherscan.io/token/" + chaiAddress} rel="noopener noreferrer">{chaiAddress}</a><br />
                           <Typography variant='subtitle1'>
                           Accrue interest on your Dai by turning it into Chai.
                         </Typography></Typography>

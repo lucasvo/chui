@@ -41,6 +41,18 @@ const DsrDecimal = Decimal.clone({
 
 const secondsInYear = DsrDecimal(60 * 60 * 24 * 365);
 
+export const getChiData = async function() {
+    const { store } = this.props
+    const web3 = store.get('web3')
+    const walletAddress = store.get('walletAddress')
+
+    if (!web3 || !walletAddress) return
+    const pot = new web3.eth.Contract(potABI, potAddress)
+    const chiRaw = await pot.methods.chi().call()
+    let chi = new DsrDecimal(chiRaw).div('1e27').toPrecision(5)
+    store.set('chi', chi)
+}
+
 export const getDsrData = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
@@ -86,7 +98,7 @@ export const initBrowserWallet = async function() {
     }
     // If no injected web3 instance is detected, display err
     else {
-        this.log("Please install MetaMask!");
+        console.log("Please install MetaMask!");
     }
 
     const web3 = new Web3(web3Provider);

@@ -117,10 +117,13 @@ export const initBrowserWallet = async function() {
     // If no injected web3 instance is detected, display err
     else {
         console.log("Please install MetaMask!")
+        store.set('web3Failure', true)
+        return
     }
 
     const web3 = new Web3(web3Provider)
 
+    store.set('web3Failure', false)
     store.set('web3', web3)
     const walletType = 'browser'
     const accounts = await web3.eth.getAccounts()

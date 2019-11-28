@@ -63,7 +63,7 @@ class MoveDaiContainer extends React.Component {
 
         return <Grid container spacing={3}>
                <Grid item xs={12}><Card><CardContent>
-                <Typography variant='h4'>Move Chai</Typography>
+                <Typography variant='h4'>Transfer Chai</Typography>
                 <Typography variant='subtitle2'>Send Dai worth of Chai to an address</Typography>
                 <Grid container alignItems="flex-end" spacing={3}>
                   <Grid item xs={12} md={6} spacing={3}>

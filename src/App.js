@@ -3,10 +3,15 @@ import { createStore } from '@spyna/react-store'
 import Web3 from 'web3';
 
 import config from './config.json';
+import daiABI from './abi/Dai.abi.json';
+import potABI from './abi/Pot.abi.json';
+import chaiABI from './abi/Chai.abi.json';
+
 import NavContainer from './containers/Nav'
-import JoinDrawContainer from './containers/JoinDraw'
-import DsrInfoContainer from './containers/DsrInfo'
+import SaveDrawContainer from './containers/SaveDraw'
+import ChaiBalanceContainer from './containers/ChaiBalance'
 import MoveDaiContainer from './containers/MoveDai'
+import {setupContracts, getData} from './utils/web3Utils'
 
 import theme from './theme/theme'
 
@@ -34,8 +39,12 @@ const styles = () => ({
   }
 })
 
+const web3 = new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider));
 const initialState = {
-    web3: new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider)),
+    web3: web3,
+    potObject: new web3.eth.Contract(potABI, config.MCD_POT),
+    daiObject: new web3.eth.Contract(daiABI, config.MCD_DAI),
+    chaiObject: new web3.eth.Contract(chaiABI, config.CHAI),
     walletAddress: '',
     walletConnecting: false,
     walletType: '',
@@ -45,6 +54,9 @@ const initialState = {
     chaiBalance: '',
     dsrRaw: '',
     dsr: '',
+    chi: '',
+    chiRaw:'',
+    savedrawAction: 0,
 }
 
 class App extends React.Component {
@@ -62,18 +74,22 @@ class App extends React.Component {
         return (
             <ThemeProvider theme={theme}>
                 <Container maxWidth="md">
-                    <Grid container>
+                    <Grid container spacing={3}>
                         <Grid item xs={12}><br/></Grid>
                         <NavContainer />
-                        <DsrInfoContainer />
 
-                        <Grid item xs={12} className={classes.contentContainer}>
-                            <JoinDrawContainer />
+                        <Grid item xs={12} md={6}>
+                            <SaveDrawContainer />
                         </Grid>
+                        <Grid item xs={12} md={6}>
+                            <ChaiBalanceContainer />
 
+                        </Grid>
                         <Grid item xs={12}>
-                            <Typography variant='h6'>
-                     Interacting with the Kovan Chai contract at: <a target="_blank" href={"https://kovan.etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a></Typography>
+                          <MoveDaiContainer />
+                        </Grid>
+                        <Grid item xs={12}>
+                          Interacting with the Kovan Chai contract at: <a target="_blank" href={"https://kovan.etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
                         </Grid>
                     </Grid>
                 </Container>

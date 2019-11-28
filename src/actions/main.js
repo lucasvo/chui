@@ -9,22 +9,22 @@ export const draw = async function() {
     return chai.methods.draw(walletAddress, drawAmount).send({from: walletAddress})
 }
 
-export const join = async function() {
+export const save = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
     const dai = store.get('daiObject')
-    const joinAmount = web3.utils.toWei(store.get('joinAmount'), 'ether')
+    const saveAmount = web3.utils.toWei(store.get('saveAmount'), 'ether')
     const walletAddress = store.get('walletAddress')
     const allowance = store.get('daiAllowance')
-    if (allowance < joinAmount) {
+    if (allowance < saveAmount) {
       return dai.methods.approve(chai.options.address, "-1")
         .send({from: walletAddress})
         .then(function () {
-          return chai.methods.join(walletAddress, joinAmount).send({from: walletAddress})
+          return chai.methods.save(walletAddress, saveAmount).send({from: walletAddress})
         });
     }
-    return chai.methods.join(walletAddress, joinAmount).send({from: walletAddress})
+    return chai.methods.save(walletAddress, saveAmount).send({from: walletAddress})
 }
 
 export const move = async function() {
@@ -38,7 +38,7 @@ export const move = async function() {
 }
 
 export default {
-    join,
+    save,
     draw,
     move,
 }

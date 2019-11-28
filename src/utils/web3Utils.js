@@ -9,28 +9,74 @@ const daiAddress = config.MCD_DAI;
 const potAddress = config.MCD_POT;
 const chaiAddress = config.CHAI;
 
-export const getData = async function() {
+export const getPotDsr = async function() {
+  const { store } = this.props
+  const pot = store.get('potObject')
+  if (!pot) return
+
+  const dsrRaw = await pot.methods.dsr().call()
+  if (dsrRaw === store.get('dsrRaw')) return
+  store.set('dsrRaw', dsrRaw)
+  let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(5)
+  store.set('dsr', dsr.toString())
+}
+
+export const getPotChi = async function() {
+  const { store } = this.props
+  const pot = store.get('potObject')
+  if (!pot) return
+  const chiRaw = await pot.methods.chi().call()
+  if (chiRaw === store.get('chiRaw')) return
+  store.set('chiRaw', chiRaw)
+  let chi = new DsrDecimal(chiRaw).div('1e27').toPrecision(5)
+  store.set('chi', chi.toString())
+}
+
+export const getDaiAllowance = async function() {
+  const { store } = this.props
+  const walletAddress = store.get('walletAddress')
+  const dai = store.get('daiObject')
+  if (!dai || !walletAddress) return
+  const daiAllowance = await dai.methods.allowance(walletAddress, chaiAddress).call()
+  store.set('daiAllowance', daiAllowance)
+}
+
+export const getDaiBalance = async function() {
+  const { store } = this.props
+  const web3 = store.get('web3')
+  const walletAddress = store.get('walletAddress')
+  const dai = store.get('daiObject')
+  if (!dai || !walletAddress) return
+  const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call()
+  const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(2)
+  store.set('daiBalance', daiBalance)
+}
+
+export const getChaiBalance = async function() {
+  const { store } = this.props
+  const web3 = store.get('web3')
+  const chai = store.get('chaiObject')
+  const walletAddress = store.get('walletAddress')
+  if (!chai || !walletAddress) return
+  const chaiBalanceRaw = await chai.methods.dai(walletAddress).call();
+  const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(2);
+  store.set('chaiBalance', chaiBalance)
+}
+
+export const setupContracts = function () {
     const { store } = this.props
     const web3 = store.get('web3')
-    const walletAddress = store.get('walletAddress')
+    store.set('potObject', new web3.eth.Contract(potABI, potAddress))
+    store.set('daiObject', new web3.eth.Contract(daiABI, daiAddress))
+    store.set('chaiObject', new web3.eth.Contract(chaiABI, chaiAddress))
+}
 
-    if (!web3 || !walletAddress) return
-
-    const dai = new web3.eth.Contract(daiABI, daiAddress);
-    const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call();
-    const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(2);
-    const daiAllowance = await dai.methods.allowance(walletAddress, chaiAddress).call();
-
-    const chai = new web3.eth.Contract(chaiABI, chaiAddress);
-    const chaiBalanceRaw = await chai.methods.dai(walletAddress).call();
-    const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(2);
-
-    store.set('daiObject', dai)
-    store.set('daiBalance', daiBalance)
-    store.set('daiAllowance', daiAllowance)
-
-    store.set('chaiObject', chai)
-    store.set('chaiBalance', chaiBalance)
+export const getData = async function() {
+    getPotDsr.bind(this)()
+    getPotChi.bind(this)()
+    getDaiAllowance.bind(this)()
+    getDaiBalance.bind(this)()
+    getChaiBalance.bind(this)()
 }
 
 const DsrDecimal = Decimal.clone({
@@ -40,24 +86,6 @@ const DsrDecimal = Decimal.clone({
 });
 
 const secondsInYear = DsrDecimal(60 * 60 * 24 * 365);
-
-export const getPotData = async function() {
-    const { store } = this.props
-    const web3 = store.get('web3')
-    if (!web3) return
-    const pot = new web3.eth.Contract(potABI, potAddress)
-    const dsrRaw = await pot.methods.dsr().call()
-    const chiRaw = await pot.methods.chi().call()
-
-    if (dsrRaw === store.get('dsrRaw') && chiRaw === store.get('chiRaw')) return
-    store.set('chiRaw', chiRaw)
-    store.set('dsrRaw', dsrRaw)
-    let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(5)
-    let chi = new DsrDecimal(chiRaw).div('1e27').toPrecision(5)
-    store.set('chi', chi)
-    store.set('dsr', dsr.toString())
-}
-
 
 export const initBrowserWallet = async function() {
     const store = this.props.store
@@ -72,7 +100,7 @@ export const initBrowserWallet = async function() {
         web3Provider = window.ethereum;
         try {
             // Request account access
-            await window.ethereum.enable();
+            await window.ethereum.enable()
         } catch (error) {
             // User denied account access...
             console.error("User denied account access")
@@ -84,23 +112,24 @@ export const initBrowserWallet = async function() {
     }
     // Legacy dApp browsers...
     else if (window.web3) {
-        web3Provider = window.web3.currentProvider;
+        web3Provider = window.web3.currentProvider
     }
     // If no injected web3 instance is detected, display err
     else {
-        console.log("Please install MetaMask!");
+        console.log("Please install MetaMask!")
     }
 
-    const web3 = new Web3(web3Provider);
+    const web3 = new Web3(web3Provider)
+
+    store.set('web3', web3)
     const walletType = 'browser'
     const accounts = await web3.eth.getAccounts()
 
     // await window.ethereum.enable();
     store.set('walletLoading', false)
     store.set('walletAddress', accounts[0])
-    store.set('web3', web3)
     store.set('walletType', walletType)
-
+    setupContracts.bind(this)()
     getData.bind(this)()
 }
 

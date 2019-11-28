@@ -8,13 +8,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import config from '../config.json';
-
 const styles = () => ({
     navContainer: {
         paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(3),
-        minHeight: 52
+        paddingBottom: theme.spacing(9),
+        minHeight: 120
     },
     logo: {
         height: 22,

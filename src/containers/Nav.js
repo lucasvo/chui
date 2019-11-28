@@ -33,7 +33,6 @@ class NavContainer extends React.Component {
     }
 
   render() {
-    const chaiAddress = config.CHAI;
         const {
             classes,
             store
@@ -44,11 +43,10 @@ class NavContainer extends React.Component {
             {<Grid className={classes.navContainer} container alignItems='center'>
               <Grid item xs={6}>
                   <Grid container alignItems='center'>
-             <Typography variant='h6'>
-             Interacting with the Kovan Chai contract at: <a target="_blank" href={"https://kovan.etherscan.io/token/" + chaiAddress} rel="noopener noreferrer">{chaiAddress}</a><br />
+                          <Typography variant='h1'>chai.money</Typography>
                           <Typography variant='subtitle1'>
                           Accrue interest on your Dai by turning it into Chai.
-                        </Typography></Typography>
+                        </Typography>
                   </Grid>
               </Grid>
               <Grid item xs={6}>

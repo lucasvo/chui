@@ -71,8 +71,9 @@ class App extends React.Component {
                             <JoinDrawContainer />
                         </Grid>
 
-                        <Grid item xs={12} className={classes.contentContainer}>
-                            <MoveDaiContainer />
+                        <Grid item xs={12}>
+                            <Typography variant='h6'>
+                     Interacting with the Kovan Chai contract at: <a target="_blank" href={"https://kovan.etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a></Typography>
                         </Grid>
                     </Grid>
                 </Container>

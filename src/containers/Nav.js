@@ -7,6 +7,10 @@ import { initBrowserWallet } from '../utils/web3Utils'
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = () => ({
     navContainer: {
@@ -37,7 +41,21 @@ class NavContainer extends React.Component {
         } = this.props
 
         const walletAddress = store.get('walletAddress')
-        return <Grid item xs={12}>
+        const web3Failure = store.get('web3Failure')
+        return <div>
+              <Dialog
+                  open={web3Failure}
+                  onClose={(event) => {store.set('web3Failure', false)}}
+              >
+              <DialogTitle id="alert-dialog-title">{"Failed to connect to web3"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                   <p>Unable to connect to wallet.</p>
+                   <a target="_blank" href="https://metamask.io/" rel="noopener noreferrer">Install metamask</a>
+                </DialogContentText>
+              </DialogContent>
+            </Dialog>
+      <Grid item xs={12}>
             {<Grid className={classes.navContainer} container alignItems='center'>
               <Grid item xs={6}>
                   <Grid container alignItems='center'>
@@ -56,6 +74,7 @@ class NavContainer extends React.Component {
               </Grid>
             </Grid>}
         </Grid>
+      </div>
     }
 }
 

@@ -43,6 +43,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider
 const initialState = {
     web3: web3,
     web3Failure: false,
+    network: 42,
     potObject: new web3.eth.Contract(potABI, config.MCD_POT),
     daiObject: new web3.eth.Contract(daiABI, config.MCD_DAI),
     chaiObject: new web3.eth.Contract(chaiABI, config.CHAI),

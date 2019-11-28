@@ -122,7 +122,8 @@ export const initBrowserWallet = async function() {
     }
 
     const web3 = new Web3(web3Provider)
-
+    const network = await web3.eth.net.getId();
+    store.set('network', network)
     store.set('web3Failure', false)
     store.set('web3', web3)
     const walletType = 'browser'

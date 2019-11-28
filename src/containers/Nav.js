@@ -42,7 +42,21 @@ class NavContainer extends React.Component {
 
         const walletAddress = store.get('walletAddress')
         const web3Failure = store.get('web3Failure')
-        return <div>
+        const network = store.get('network')
+    return <div>
+              <Dialog
+                 open={
+                   //kovan set up
+                   network !== 42}
+              >
+              <DialogTitle id="alert-dialog-title">{"Wrong network"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                   <p>Switch to the Kovan network to interact with the current deployment</p>
+                </DialogContentText>
+              </DialogContent>
+            </Dialog>
+
               <Dialog
                   open={web3Failure}
                   onClose={(event) => {store.set('web3Failure', false)}}

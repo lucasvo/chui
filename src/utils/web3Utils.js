@@ -58,7 +58,8 @@ export const getChaiBalance = async function() {
   const chai = store.get('chaiObject')
   const walletAddress = store.get('walletAddress')
   if (!chai || !walletAddress) return
-  const chaiBalanceRaw = await chai.methods.dai(walletAddress).call();
+  const chaiBalanceRaw = await chai.methods.balanceOf(walletAddress).call();
+  store.set('chaiBalanceRaw', chaiBalanceRaw)
   const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(2);
   store.set('chaiBalance', chaiBalance)
 }
@@ -79,7 +80,7 @@ export const getData = async function() {
     getChaiBalance.bind(this)()
 }
 
-const DsrDecimal = Decimal.clone({
+export const DsrDecimal = Decimal.clone({
   precision: 30,
   toExpNeg: -7,
   toExpPos: 29,
@@ -139,4 +140,5 @@ export const initBrowserWallet = async function() {
 
 export default {
     initBrowserWallet,
+    DsrDecimal
 }

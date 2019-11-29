@@ -8,6 +8,8 @@ import { getData } from '../utils/web3Utils'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+import { DsrDecimal } from '../utils/web3Utils';
+
 const styles = () => ({
     container: {
         paddingTop: theme.spacing(1),
@@ -36,8 +38,13 @@ class ChaiBalanceContainer extends React.Component {
         const chi = store.get('chi')
         const dsrPercent = dsr;
         const chaiBalance = store.get('chaiBalance')
+        const chaiBalanceRaw = store.get('chaiBalanceRaw')
+      const chaiDecimal = chaiBalanceRaw ? new DsrDecimal(chaiBalanceRaw).div('1e18') : new DsrDecimal(0)
+        const chiDecimal = chi ? new DsrDecimal(chi) : new DsrDecimal(0)
+      const daiEquiv = chiDecimal.mul(chaiDecimal).toPrecision(5)
         return <Card><CardContent>
-                 <h1>{chaiBalance ? `${chaiBalance} DAI` : ''}</h1>
+                <h1>{chaiBalance ? `${chaiBalance} CHAI` : ''}</h1>
+                <h5>{chaiBalance ? `~${daiEquiv} DAI` : ''}</h5>
                  <p>1 CHAI = {chi ? `${chi}` : '?'} DAI
                  <p>Dai Savings Rate: {dsrPercent ? `${dsrPercent}%` : '-'}</p>
                </p>

@@ -54,6 +54,7 @@ const initialState = {
     daiAllowance: '',
     allowanceAvailable: false,
     chaiBalance: '',
+    chaiBalanceRaw: '',
     dsrRaw: '',
     dsr: '',
     chi: '',

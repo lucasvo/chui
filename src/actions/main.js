@@ -21,10 +21,10 @@ export const save = async function() {
       return dai.methods.approve(chai.options.address, "-1")
         .send({from: walletAddress})
         .then(function () {
-          return chai.methods.save(walletAddress, saveAmount).send({from: walletAddress})
+          return chai.methods.join(walletAddress, saveAmount).send({from: walletAddress})
         });
     }
-    return chai.methods.save(walletAddress, saveAmount).send({from: walletAddress})
+    return chai.methods.join(walletAddress, saveAmount).send({from: walletAddress})
 }
 
 export const move = async function() {

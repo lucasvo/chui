@@ -43,7 +43,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider
 const initialState = {
     web3: web3,
     web3Failure: false,
-    network: 42,
+    network: 1,
     potObject: new web3.eth.Contract(potABI, config.MCD_POT),
     daiObject: new web3.eth.Contract(daiABI, config.MCD_DAI),
     chaiObject: new web3.eth.Contract(chaiABI, config.CHAI),
@@ -92,7 +92,7 @@ class App extends React.Component {
                           <MoveDaiContainer />
                         </Grid>
                         <Grid item xs={12}>
-                          Interacting with the Kovan Chai contract at: <a target="_blank" href={"https://kovan.etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
+                          Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
                         </Grid>
                     </Grid>
                 </Container>

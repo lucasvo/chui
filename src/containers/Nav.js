@@ -46,13 +46,13 @@ class NavContainer extends React.Component {
     return <div>
               <Dialog
                  open={
-                   //kovan set up
-                   network !== 42}
+                   //mainnet set up
+                   network !== 1}
               >
               <DialogTitle id="alert-dialog-title">{"Wrong network"}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                   <p>Switch to the Kovan network to interact with the current deployment</p>
+                   <p>Switch to mainnet to interact with this app</p>
                 </DialogContentText>
               </DialogContent>
             </Dialog>

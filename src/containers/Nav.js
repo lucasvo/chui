@@ -73,7 +73,7 @@ class NavContainer extends React.Component {
             {<Grid className={classes.navContainer} container alignItems='center'>
               <Grid item xs={6}>
                   <Grid container alignItems='center'>
-                          <Typography variant='h1'>chai.money</Typography>
+                          <Typography variant='h1'><i>chai.money</i></Typography>
                           <Typography variant='subtitle1'>
                           Accrue interest on your Dai by turning it into Chai.
                         </Typography>

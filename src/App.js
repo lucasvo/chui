@@ -40,6 +40,7 @@ const styles = () => ({
 })
 
 const web3 = new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider));
+
 const initialState = {
     web3: web3,
     web3Failure: false,
@@ -94,6 +95,10 @@ class App extends React.Component {
                         <Grid item xs={12}>
                           Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
                         </Grid>
+                        <Grid item xs={12} className={classes.footer}>
+                          chai.money by stablecoin.services
+                        </Grid>
+
                     </Grid>
                 </Container>
             </ThemeProvider>

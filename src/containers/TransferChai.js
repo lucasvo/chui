@@ -88,7 +88,7 @@ class TransferChaiContainer extends React.Component {
                     onClick={() => {
                         this.transfer()
                     }} variant="contained" disabled={!isSignedIn || !canTransfer} className={classes.actionButton}>
-                    Convert
+                    Transfer
                 </Button>
               </Box>
             </CardContent></Card></Grid>

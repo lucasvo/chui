@@ -73,11 +73,11 @@ class TransferChaiContainer extends React.Component {
                         }} />
         </Grid>
                           <Grid item xs={12} md={6} spacing={3}>
-                    <TextField label="CHAI Value" placeholder='0' className={classes.input} margin="normal" variant="outlined" onChange={(event) => {
+                    <TextField label="CHAI Value" placeholder='0' className={classes.input} margin="normal" variant="outlined" type="number" onChange={(event) => {
                             store.set('transferAmount', event.target.value)
                         }} InputProps={{
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
-                        }} helperText={transferAmount ? "Worth: " + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " dai": " "}
+                        }} helperText={transferAmount ? "Worth: " + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
         />
                   </Grid>
 

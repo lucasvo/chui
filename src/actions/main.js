@@ -27,18 +27,18 @@ export const join = async function() {
     return chai.methods.join(walletAddress, joinAmount).send({from: walletAddress})
 }
 
-export const move = async function() {
+export const transfer = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
-    const moveAmount = web3.utils.toWei(store.get('moveAmount'), 'ether')
-    const moveAddress = store.get('moveAddress')
+    const transferAmount = web3.utils.toWei(store.get('transferAmount'), 'ether')
+    const transferAddress = store.get('transferAddress')
     const walletAddress = store.get('walletAddress')
-    return chai.methods.move(walletAddress, moveAddress, moveAmount).send({from: walletAddress})
+    return chai.methods.transfer(transferAddress, transferAmount).send({from: walletAddress})
 }
 
 export default {
     join,
     exit,
-    move,
+    transfer,
 }

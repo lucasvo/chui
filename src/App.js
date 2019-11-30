@@ -10,7 +10,7 @@ import chaiABI from './abi/Chai.abi.json';
 import NavContainer from './containers/Nav'
 import SaveDrawContainer from './containers/JoinExit'
 import ChaiBalanceContainer from './containers/ChaiBalance'
-import MoveDaiContainer from './containers/MoveDai'
+import MoveDaiContainer from './containers/TransferChai'
 import {setupContracts, getData} from './utils/web3Utils'
 
 import theme from './theme/theme'

@@ -9,7 +9,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 
-import { toDai, toChai } from '../utils/web3Utils';
+import { toDai } from '../utils/web3Utils';
 
 import logogif from '../assets/logo.gif'
 import logostill from '../assets/logostill.png'

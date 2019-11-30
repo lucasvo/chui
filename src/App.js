@@ -26,6 +26,9 @@ const styles = () => ({
   },
   paper: {
   },
+  footer: {
+    textAlign: 'center',
+  },
   navContainer: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
@@ -92,7 +95,7 @@ class App extends React.Component {
                         <Grid item xs={12}>
                           <TransferChaiContainer />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={footer}>
                           Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
                         </Grid>
                         <Grid item xs={12} className={classes.footer}>

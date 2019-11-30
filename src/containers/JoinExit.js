@@ -102,7 +102,7 @@ class JoinExitContainer extends React.Component {
                   </Box>
                   <Box hidden={joinexitAction !== 1}>
                     <Typography variant='subtitle2'>Convert your Chai back to Dai</Typography>
-                    <Typography variant="subtitle2" className={classes.accountBalance}>{chaiBalance? `Balance: ${chaiBalance} DAI` : '-'}</Typography>
+                    <Typography variant="subtitle2" className={classes.accountBalance}>{chaiBalance? `Balance: ${chaiBalance} CHAI` : '-'}</Typography>
                     <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" type="number" onChange={(event) => {
                             store.set('exitAmount', event.target.value)
                         }} InputProps={{

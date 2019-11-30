@@ -8,7 +8,7 @@ import potABI from './abi/Pot.abi.json';
 import chaiABI from './abi/Chai.abi.json';
 
 import NavContainer from './containers/Nav'
-import SaveDrawContainer from './containers/SaveDraw'
+import SaveDrawContainer from './containers/JoinExit'
 import ChaiBalanceContainer from './containers/ChaiBalance'
 import MoveDaiContainer from './containers/MoveDai'
 import {setupContracts, getData} from './utils/web3Utils'
@@ -59,7 +59,7 @@ const initialState = {
     dsr: '',
     chi: '',
     chiRaw:'',
-    savedrawAction: 0,
+    joinexitAction: 0,
 }
 
 class App extends React.Component {

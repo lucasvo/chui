@@ -93,7 +93,7 @@ class JoinExitContainer extends React.Component {
                        }} InputProps={{ inputProps: { min: 0 },
                                 endAdornment: <InputAdornment className={classes.endAdornment} position="end">DAI</InputAdornment>
                             }}
-      helperText={joinAmount ? "You will receive: " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": ""}
+      helperText={isSignedIn & joinAmount ? "You will receive: " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": " "}
         />
                         <Button color='primary'
                             size='large'
@@ -114,7 +114,7 @@ class JoinExitContainer extends React.Component {
             }} InputProps={{ inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                         }}
-      helperText={exitAmount ? "You will receive: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": ""}
+      helperText={isSignedIn & exitAmount ? "You will receive: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": " "}
         />
                     <Button color='primary'
                         size='large'

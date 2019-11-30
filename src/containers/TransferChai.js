@@ -80,7 +80,7 @@ class TransferChaiContainer extends React.Component {
                             store.set('transferAmount', event.target.value)
                         }} InputProps={{inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
-                        }} helperText={transferAmount ? "Worth: " + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
+                        }} helperText={isSignedIn & transferAmount ? "Worth: " + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
         />
                   </Grid>
 

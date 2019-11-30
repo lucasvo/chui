@@ -6,7 +6,13 @@ import theme from '../theme/theme'
 import { getData } from '../utils/web3Utils'
 
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
+
+import { toDai, toChai } from '../utils/web3Utils';
+
+import logogif from '../assets/logo.gif'
+import logostill from '../assets/logostill.png'
 
 const styles = () => ({
     container: {
@@ -36,11 +42,22 @@ class ChaiBalanceContainer extends React.Component {
         const chi = store.get('chi')
         const dsrPercent = dsr;
         const chaiBalance = store.get('chaiBalance')
-        return <Card><CardContent>
-                 <h1>{chaiBalance ? `${chaiBalance} DAI` : ''}</h1>
-                 <p>1 CHAI = {chi ? `${chi}` : '?'} DAI
+        const chaiBalanceRaw = store.get('chaiBalanceRaw')
+        const daiEquiv = chaiBalanceRaw ? toDai.bind(this)(chaiBalanceRaw) : undefined
+      return <Card ><CardContent>
+        <h2>You have {chaiBalance ? daiEquiv : '0'} Dai brewing</h2>
+                 <CardMedia
+         component="img"
+                  style={{resizeMode: 'contain',     width: 100, float: 'right', paddingRight: 52
+}}
+        src={chaiBalance > 0 ? logogif : logostill}
+         />
+
+        <p>Chai balance: {chaiBalance ? `${chaiBalance}` : '-'}</p>
+         <p>1 CHAI = {chi ? `${chi}` : '?'} DAI
                  <p>Dai Savings Rate: {dsrPercent ? `${dsrPercent}%` : '-'}</p>
-               </p>
+        </p>
+        
                </CardContent></Card>
     }
 }

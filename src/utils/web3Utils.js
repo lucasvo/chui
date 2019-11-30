@@ -48,7 +48,7 @@ export const getDaiBalance = async function() {
   const dai = store.get('daiObject')
   if (!dai || !walletAddress) return
   const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call()
-  const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(2)
+  const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(5)
   store.set('daiBalance', daiBalance)
 }
 
@@ -58,10 +58,29 @@ export const getChaiBalance = async function() {
   const chai = store.get('chaiObject')
   const walletAddress = store.get('walletAddress')
   if (!chai || !walletAddress) return
-  const chaiBalanceRaw = await chai.methods.dai(walletAddress).call();
-  const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(2);
+  const chaiBalanceRaw = await chai.methods.balanceOf(walletAddress).call();
+  store.set('chaiBalanceRaw', chaiBalanceRaw)
+  const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(5);
   store.set('chaiBalance', chaiBalance)
 }
+
+export const toChai = function(daiAmount) {
+  const daiDecimal = daiAmount ? new DsrDecimal(daiAmount).div('1e18') : new DsrDecimal(0)
+  const { store } = this.props
+  if (!store.get('chi')) return
+  const chiDecimal = new DsrDecimal(store.get('chi'))
+  return daiDecimal.div(chiDecimal).toFixed(5)
+}
+
+
+export const toDai = function(chaiAmount) {
+  const chaiDecimal = chaiAmount ? new DsrDecimal(chaiAmount).div('1e18') : new DsrDecimal(0)
+  const { store } = this.props
+  if (!store.get('chi')) return
+  const chiDecimal = new DsrDecimal(store.get('chi'))
+  return chiDecimal.mul(chaiDecimal).toFixed(5)
+}
+
 
 export const setupContracts = function () {
     const { store } = this.props
@@ -79,7 +98,7 @@ export const getData = async function() {
     getChaiBalance.bind(this)()
 }
 
-const DsrDecimal = Decimal.clone({
+export const DsrDecimal = Decimal.clone({
   precision: 30,
   toExpNeg: -7,
   toExpPos: 29,
@@ -122,7 +141,8 @@ export const initBrowserWallet = async function() {
     }
 
     const web3 = new Web3(web3Provider)
-
+    const network = await web3.eth.net.getId();
+    store.set('network', network)
     store.set('web3Failure', false)
     store.set('web3', web3)
     const walletType = 'browser'
@@ -138,4 +158,6 @@ export const initBrowserWallet = async function() {
 
 export default {
     initBrowserWallet,
+    toChai,
+    toDai
 }

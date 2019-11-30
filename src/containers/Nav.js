@@ -42,7 +42,21 @@ class NavContainer extends React.Component {
 
         const walletAddress = store.get('walletAddress')
         const web3Failure = store.get('web3Failure')
-        return <div>
+        const network = store.get('network')
+    return <div>
+              <Dialog
+                 open={
+                   //mainnet set up
+                   network !== 1}
+              >
+              <DialogTitle id="alert-dialog-title">{"Wrong network"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                   <p>Switch to mainnet to interact with this app</p>
+                </DialogContentText>
+              </DialogContent>
+            </Dialog>
+
               <Dialog
                   open={web3Failure}
                   onClose={(event) => {store.set('web3Failure', false)}}
@@ -59,7 +73,7 @@ class NavContainer extends React.Component {
             {<Grid className={classes.navContainer} container alignItems='center'>
               <Grid item xs={6}>
                   <Grid container alignItems='center'>
-                          <Typography variant='h1'>chai.money</Typography>
+                          <Typography variant='h1'><i>chai.money</i></Typography>
                           <Typography variant='subtitle1'>
                           Accrue interest on your Dai by turning it into Chai.
                         </Typography>

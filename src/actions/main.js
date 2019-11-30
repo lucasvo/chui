@@ -1,44 +1,44 @@
 import { } from '../utils/web3Utils';
 
-export const draw = async function() {
+export const exit = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
-    const drawAmount = web3.utils.toWei(store.get('drawAmount'), 'ether')
+    const exitAmount = web3.utils.toWei(store.get('exitAmount'), 'ether')
     const walletAddress = store.get('walletAddress')
-    return chai.methods.draw(walletAddress, drawAmount).send({from: walletAddress})
+    return chai.methods.exit(walletAddress, exitAmount).send({from: walletAddress})
 }
 
-export const save = async function() {
+export const join = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
     const dai = store.get('daiObject')
-    const saveAmount = web3.utils.toWei(store.get('saveAmount'), 'ether')
+    const joinAmount = web3.utils.toWei(store.get('joinAmount'), 'ether')
     const walletAddress = store.get('walletAddress')
     const allowance = store.get('daiAllowance')
-    if (allowance < saveAmount) {
+    if (Number((allowance) < Number(joinAmount))) {
       return dai.methods.approve(chai.options.address, "-1")
         .send({from: walletAddress})
         .then(function () {
-          return chai.methods.save(walletAddress, saveAmount).send({from: walletAddress})
+          return chai.methods.join(walletAddress, joinAmount).send({from: walletAddress})
         });
     }
-    return chai.methods.save(walletAddress, saveAmount).send({from: walletAddress})
+    return chai.methods.join(walletAddress, joinAmount).send({from: walletAddress})
 }
 
-export const move = async function() {
+export const transfer = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
-    const moveAmount = web3.utils.toWei(store.get('moveAmount'), 'ether')
-    const moveAddress = store.get('moveAddress')
+    const transferAmount = web3.utils.toWei(store.get('transferAmount'), 'ether')
+    const transferAddress = store.get('transferAddress')
     const walletAddress = store.get('walletAddress')
-    return chai.methods.move(walletAddress, moveAddress, moveAmount).send({from: walletAddress})
+    return chai.methods.transfer(transferAddress, transferAmount).send({from: walletAddress})
 }
 
 export default {
-    save,
-    draw,
-    move,
+    join,
+    exit,
+    transfer,
 }

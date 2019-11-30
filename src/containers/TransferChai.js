@@ -65,7 +65,10 @@ class TransferChaiContainer extends React.Component {
         return <Grid container spacing={3}>
                <Grid item xs={12}><Card><CardContent>
                 <Typography variant='h4'>Transfer Chai</Typography>
-                <Typography variant='subtitle2' className={classes.accountBalance}>{chaiBalance ? `Balance: ${chaiBalance} CHAI` : '-'}</Typography>
+        <Button variant='subtitle2' className={classes.accountBalance}
+            style={{textTransform: 'none'}}
+      onClick={() => {store.set('transferAmount', chaiBalance)}}
+        >{chaiBalance ? `Balance: ${chaiBalance} CHAI` : '-'}</Button>
                 <Grid container alignItems="start" spacing={3}>
                   <Grid item xs={12} md={6}>
                     <TextField label='Receiving address' placeholder='0x' className={classes.input} margin="normal" variant="outlined" onChange={(event) => {
@@ -73,9 +76,9 @@ class TransferChaiContainer extends React.Component {
                         }} />
         </Grid>
                           <Grid item xs={12} md={6} spacing={3}>
-                    <TextField label="CHAI Value" placeholder='0' className={classes.input} margin="normal" variant="outlined" type="number" onChange={(event) => {
+        <TextField label="CHAI Value" placeholder='0' className={classes.input} margin="normal" value={transferAmount ? transferAmount : ''} variant="outlined" type="number" onChange={(event) => {
                             store.set('transferAmount', event.target.value)
-                        }} InputProps={{
+                        }} InputProps={{inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                         }} helperText={transferAmount ? "Worth: " + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
         />

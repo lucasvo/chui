@@ -83,11 +83,14 @@ class JoinExitContainer extends React.Component {
                     </Tabs>
                   <CardContent>
 
-                  <Box hidden={joinexitAction !== 0}> <Typography variant='subtitle2'>Start saving by converting your Dai to Chai</Typography>
-                        <Typography variant="subtitle2" className={classes.accountBalance}>{daiBalance ? `Balance: ${daiBalance} DAI` : '-'}</Typography>
-                        <TextField label="DAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" type="number" onChange={(event) => {
+                  <Box hidden={joinexitAction !== 0}> <Typography variant='subtitle2'>Start saving by converting Dai to Chai</Typography>
+        <Button variant="subtitle2" className={classes.accountBalance}
+      style={{textTransform: 'none'}}
+      onClick={() => {store.set('joinAmount', daiBalance)}}
+        >{daiBalance ? `Balance: ${daiBalance} DAI` : '-'}</Button>
+        <TextField label="DAI Amount" placeholder='0' className={classes.input} value={joinAmount ? joinAmount : ''} margin="normal" variant="outlined" type="number" onChange={(event) => {
                                 store.set('joinAmount', event.target.value)
-                            }} InputProps={{
+                       }} InputProps={{ inputProps: { min: 0 },
                                 endAdornment: <InputAdornment className={classes.endAdornment} position="end">DAI</InputAdornment>
                             }}
       helperText={joinAmount ? "You will receive: " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": ""}
@@ -101,11 +104,14 @@ class JoinExitContainer extends React.Component {
                         </Button>
                   </Box>
                   <Box hidden={joinexitAction !== 1}>
-                    <Typography variant='subtitle2'>Convert your Chai back to Dai</Typography>
-                    <Typography variant="subtitle2" className={classes.accountBalance}>{chaiBalance? `Balance: ${chaiBalance} CHAI` : '-'}</Typography>
-                    <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" type="number" onChange={(event) => {
+                    <Typography variant='subtitle2'>Convert Chai back to Dai</Typography>
+        <Button variant="subtitle2" className={classes.accountBalance}
+      style={{textTransform: 'none'}}
+      onClick={() => {store.set('exitAmount', chaiBalance)}}
+        >{chaiBalance? `Balance: ${chaiBalance} CHAI` : '-'}</Button>
+        <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" value={exitAmount ? exitAmount : ''} type="number" onChange={(event) => {
                             store.set('exitAmount', event.target.value)
-                        }} InputProps={{
+            }} InputProps={{ inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                         }}
       helperText={exitAmount ? "You will receive: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": ""}

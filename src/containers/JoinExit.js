@@ -5,7 +5,6 @@ import theme from '../theme/theme'
 import { getData, toChai, toDai } from '../utils/web3Utils'
 import { join, exit } from '../actions/main'
 
-import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
@@ -93,7 +92,7 @@ class JoinExitContainer extends React.Component {
                        }} InputProps={{ inputProps: { min: 0 },
                                 endAdornment: <InputAdornment className={classes.endAdornment} position="end">DAI</InputAdornment>
                             }}
-      helperText={isSignedIn & joinAmount ? "You will receive: " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": " "}
+      helperText={(isSignedIn && joinAmount) ? "You will receive approximately " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": " "}
         />
                         <Button color='primary'
                             size='large'
@@ -114,7 +113,7 @@ class JoinExitContainer extends React.Component {
             }} InputProps={{ inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                         }}
-      helperText={isSignedIn & exitAmount ? "You will receive: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": " "}
+      helperText={(isSignedIn && exitAmount) ? "You will receive at least: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": " "}
         />
                     <Button color='primary'
                         size='large'

@@ -64,7 +64,8 @@ class TransferChaiContainer extends React.Component {
 
         return <Grid container spacing={3}>
                <Grid item xs={12}><Card><CardContent>
-                <Typography variant='h4'>Transfer Chai</Typography>
+        <Typography variant='h4'>Transfer Chai</Typography>
+        <Typography variant='subtitle2'>Send Chai to any address</Typography>
         <Button variant='subtitle2' className={classes.accountBalance}
             style={{textTransform: 'none'}}
       onClick={() => {store.set('transferAmount', chaiBalance)}}
@@ -80,7 +81,7 @@ class TransferChaiContainer extends React.Component {
                             store.set('transferAmount', event.target.value)
                         }} InputProps={{inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
-                        }} helperText={isSignedIn & transferAmount ? "Worth: " + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
+                                       }} helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
         />
                   </Grid>
 

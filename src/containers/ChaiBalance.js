@@ -9,7 +9,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 
-import { toDai, toChai } from '../utils/web3Utils';
+import { toDai } from '../utils/web3Utils';
 
 import logogif from '../assets/logo.gif'
 import logostill from '../assets/logostill.png'
@@ -54,11 +54,10 @@ class ChaiBalanceContainer extends React.Component {
          />
 
         <p>Chai balance: {chaiBalance ? `${chaiBalance}` : '-'}</p>
-         <p>1 CHAI = {chi ? `${chi}` : '?'} DAI
-                 <p>Dai Savings Rate: {dsrPercent ? `${dsrPercent}% APR` : '-'}</p>
-        </p>
-
-               </CardContent></Card>
+        <p>1 CHAI = {chi ? `${chi}` : '?'} DAI</p>
+        <p>Dai Savings Rate: {dsrPercent ? `${dsrPercent}% APR` : '-'}</p>
+        <a target="_blank" href="https://about.chai.money" rel="noopener noreferrer">Learn more</a>
+        </CardContent></Card>
     }
 }
 

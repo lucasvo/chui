@@ -15,6 +15,7 @@ import {setupContracts, getData} from './utils/web3Utils'
 
 import theme from './theme/theme'
 
+import Typography from '@material-ui/core/Typography';
 import { withStyles, ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
@@ -99,9 +100,8 @@ class App extends React.Component {
                           Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
                         </Grid>
                         <Grid item xs={12} className={classes.footer}>
-                          chai.money by stablecoin.services
+                         chai.money by <a target="_blank" href="https://twitter.com/martinlundfall" rel="noopener noreferrer">Martin Lundfall</a>, <a target="_blank" href="https://lucasvo.com" rel="noopener noreferrer">Lucas Vogelsang</a>, <a target="_blank" href="https://lev.liv.nev.org.uk" rel="noopener noreferrer">Lev Livnev</a>. Pixel art by <a target="_blank" href="https://twitter.com/abbeytitcomb" rel="noopener noreferrer">Abbey Titcomb</a>
                         </Grid>
-
                     </Grid>
                 </Container>
             </ThemeProvider>

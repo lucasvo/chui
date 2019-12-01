@@ -77,8 +77,8 @@ class JoinExitContainer extends React.Component {
 
         return <Card className={classes.card}>
                     <Tabs value={joinexitAction} onChange={this.handleChange.bind(this)} centered>
-                      <Tab label="Convert" id="join-tab" />
-                      <Tab label="Withdraw" id="exit-tab" />
+                      <Tab label="Dai -> Chai" id="join-tab" />
+                      <Tab label="Chai -> Dai" id="exit-tab" />
                     </Tabs>
                   <CardContent>
 

@@ -17,7 +17,7 @@ export const getPotDsr = async function() {
   const dsrRaw = await pot.methods.dsr().call()
   if (dsrRaw === store.get('dsrRaw')) return
   store.set('dsrRaw', dsrRaw)
-  let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(5)
+  let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(2)
   store.set('dsr', dsr.toString())
 }
 

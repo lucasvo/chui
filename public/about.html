@@ -5,18 +5,47 @@
     <!-- <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+<style>
+body {
+  padding:0;
+  max-width:900px;
+  padding:0 20px;
+  margin:5% auto 0 auto;
+  font-family: monospace;
+}
+h1, h2, h3, body {
+  font-size:12pt;
+}
+h2, h3, body {
+  font-weight:normal;
+  font-style:regular;
+  line-height:regular;
+}
+h1, h2, h3 {
+  margin-top:2em;
+  text-align:center;
+}
+.logo { text-align:center; }
+footer {
+  font-style:italic;
+  text-align:center;
+}
+</style>
+
+
     <meta
       name="description"
       content="Documentation for chai"
       />
     <title>about.chai.money</title>
   </head>
-  <body style="margin-right:300px;margin-left:300px;padding:0">
+  <body>
     <h1 id="chai-a-simple-erc20-wrapper-over-the-dai-savings-rate">Chai – A simple ERC20 wrapper over the Dai Savings Rate</h1>
 <p>Today we are introducing <code>Chai</code>, an ERC20 token that lets you earn interest on Dai without requiring it to be locked in the Dai Savings Rate. It can be transfered freely and is always redeemable for an ever growing amount of Dai. Interact with the Chai contract at <a href="https://chai.money">chai.money</a>.</p>
 <p>Chai lives on the Ethereum mainnet at address <code>0x06AF07097C9Eeb7fD685c692751D5C66dB49c215</code>.</p>
-<img src="https://i.imgur.com/DbTXS3b.gif" alt="">
-<p><em>Somethings brewing...</em></p>
+<p class="logo">
+<img src="https://i.imgur.com/DbTXS3b.gif" alt="" /><br />
+Somethings brewing...</p>
 <h2 id="what-is-chai-">What is Chai?</h2>
 <p>With the launch of multi-collateral Dai, Dai holders can earn risk-free interest on their coins using the Dai Savings Contract, also known as the <code>Pot</code>. The interest is funded out of the stability fees paid by CDP users, and is 2% per year at the time of writing. Even though Dai deposited in the savings contract remains instantly redeemable, interest accruing Dai cannot be directly transfered, or used in other dapps. Chai solves this by essentially &quot;unlocking&quot; your Dai savings balance, making it transferable, fungible, and ready for further DeFi integrations.</p>
 <p>When you convert your Dai to Chai, you receive a corresponding balance in the Chai contract. While your Chai balance remains constant, its corresponding Dai value grows with the Dai Savings Rate. You can think of it as Dai <em>brewing</em> in the Chai contract. At any point in time you can redeem your Dai along with additional interest, or continue to use the Chai token directly.</p>
@@ -36,9 +65,9 @@ For example, with the method <code>move(address sender, address receiver, uint v
 <h2 id="disclaimer">Disclaimer</h2>
 <p>The <code>Chai</code> contract has not yet undergone an audit. Although we believe it to be straightforward enough to not contain any surprises, remember that on the blockchain, you are responsible for your own actions.</p>
 <h2 id="resources">Resources</h2>
-<p>The contract source code can be found at <a href="https://github.com/dapphub/chai">github.com/dapphub/chai</a>. 
+<p>The contract source code can be found at <a href="https://github.com/dapphub/chai">github.com/dapphub/chai</a>.
 The source code for chai.money is at <a href="https://github.com/lucasvo/chui">github.com/lucasvo/chui</a>.
 Everything distributed under the AGPL license.</p>
-<p><em>Martin Lundfall, Lucas Vogelsang, Lev Livnev</em></p>
+<footer> chai.money by <a target="_blank" href="https://twitter.com/martinlundfall" rel="noopener noreferrer">Martin Lundfall</a>, <a target="_blank" href="https://lucasvo.com" rel="noopener noreferrer">Lucas Vogelsang</a>, <a target="_blank" href="https://lev.liv.nev.org.uk" rel="noopener noreferrer">Lev Livnev</a>. Pixel art by <a target="_blank" href="https://twitter.com/abbeytitcomb" rel="noopener noreferrer">Abbey Titcomb</a></footer>
   </body>
 </html>

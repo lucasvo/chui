@@ -57,7 +57,7 @@ export const getDaiBalance = async function() {
   if (!dai || !walletAddress) return
   const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call()
   const daiBalanceDecimal = new WadDecimal(daiBalanceRaw).div('1e18')
-  store.set('daiBalanceDecimal', daiBalanceDecimal)
+  store.set('daiBalanceDecimal', daiBalanceDecimal.toString())
   const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(5)
   store.set('daiBalance', daiBalance)
 }
@@ -71,7 +71,7 @@ export const getChaiBalance = async function() {
   const chaiBalanceRaw = await chai.methods.balanceOf(walletAddress).call()
   store.set('chaiBalanceRaw', chaiBalanceRaw)
   const chaiBalanceDecimal = new WadDecimal(chaiBalanceRaw).div('1e18')
-  store.set('chaiBalanceDecimal', chaiBalanceDecimal)
+  store.set('chaiBalanceDecimal', chaiBalanceDecimal.toString())
   const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(5)
   store.set('chaiBalance', chaiBalance)
 }

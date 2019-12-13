@@ -92,16 +92,16 @@ class JoinExitContainer extends React.Component {
 
         const walletAddress = store.get('walletAddress')
         const daiBalance = store.get('daiBalance')
-        const daiBalanceRaw = store.get('daiBalanceRaw')
+        const daiBalanceDecimal = store.get('daiBalanceDecimal')
         const chaiBalance = store.get('chaiBalance')
-        const chaiBalanceRaw = store.get('chaiBalanceRaw')
+        const chaiBalanceDecimal = store.get('chaiBalanceDecimal')
         const joinAmount = store.get('joinAmount')
         const exitAmount = store.get('exitAmount')
         const web3 = store.get('web3')
         const isSignedIn = walletAddress && walletAddress.length
 
-        const canJoin = joinAmount && (joinAmount <= daiBalanceRaw)
-        const canExit = exitAmount && (exitAmount <= chaiBalanceRaw)
+      const canJoin = joinAmount && (Number(joinAmount) <= Number(daiBalanceDecimal))
+      const canExit = exitAmount && (Number(exitAmount) <= Number(chaiBalanceDecimal))
         const joinexitAction = store.get('joinexitAction')
 
         return <Card className={classes.card}>

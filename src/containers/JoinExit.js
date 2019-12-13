@@ -1,19 +1,19 @@
-import React from 'react';
+import React from 'react'
 import {withStore} from '@spyna/react-store'
-import {withStyles} from '@material-ui/styles';
+import {withStyles} from '@material-ui/styles'
 import theme from '../theme/theme'
-import { getData, toChai, toDai } from '../utils/web3Utils'
+import { WadDecimal, getData, toChai, toDai } from '../utils/web3Utils'
 import { join, exit } from '../actions/main'
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Box from '@material-ui/core/Box'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
+import InputAdornment from '@material-ui/core/InputAdornment'
 
 const styles = () => ({
    card: {
@@ -41,10 +41,10 @@ class JoinExitContainer extends React.Component {
     }
 
     async watchData() {
-        await getData.bind(this)();
+        await getData.bind(this)()
         setInterval(() => {
-            getData.bind(this)();
-        }, 10 * 1000);
+            getData.bind(this)()
+        }, 10 * 1000)
     }
 
     join() {
@@ -55,6 +55,33 @@ class JoinExitContainer extends React.Component {
         exit.bind(this)()
     }
 
+    setMax() {
+      const {store} = this.props
+      const action = store.get('joinexitAction')
+      if (action === 0) {
+        const daiBalanceDecimal = store.get('daiBalanceDecimal')
+        store.set('joinAmount', daiBalanceDecimal)
+      } else {
+        const chaiBalanceDecimal = store.get('chaiBalanceDecimal')
+        store.set('exitAmount', chaiBalanceDecimal)
+      }
+    }
+
+    handleInput(event) {
+      const {store} = this.props
+      const action = store.get('joinexitAction')
+      let value
+      try {
+        value = new WadDecimal(event.target.value)
+      } catch {
+        return
+      }
+      if (action === 0) {
+        store.set('joinAmount', value)
+      } else {
+        store.set('exitAmount', value)
+      }
+    }
     handleChange (event, newValue) {
       const {store} = this.props
       store.set('joinexitAction',  newValue)
@@ -65,14 +92,16 @@ class JoinExitContainer extends React.Component {
 
         const walletAddress = store.get('walletAddress')
         const daiBalance = store.get('daiBalance')
+        const daiBalanceRaw = store.get('daiBalanceRaw')
         const chaiBalance = store.get('chaiBalance')
-        const joinAmount = store.get('joinAmount');
-        const exitAmount = store.get('exitAmount');
-        const web3 = store.get('web3');
+        const chaiBalanceRaw = store.get('chaiBalanceRaw')
+        const joinAmount = store.get('joinAmount')
+        const exitAmount = store.get('exitAmount')
+        const web3 = store.get('web3')
         const isSignedIn = walletAddress && walletAddress.length
 
-        const canJoin = joinAmount && (Number(joinAmount) <= Number(daiBalance))
-        const canExit = exitAmount && (Number(exitAmount) <= Number(chaiBalance))
+        const canJoin = joinAmount && (joinAmount <= daiBalanceRaw)
+        const canExit = exitAmount && (exitAmount <= chaiBalanceRaw)
         const joinexitAction = store.get('joinexitAction')
 
         return <Card className={classes.card}>
@@ -85,11 +114,9 @@ class JoinExitContainer extends React.Component {
                   <Box hidden={joinexitAction !== 0}> <Typography variant='subtitle2'>Start saving by converting Dai to Chai</Typography>
         <Button variant="subtitle2" className={classes.accountBalance}
       style={{textTransform: 'none'}}
-      onClick={() => {store.set('joinAmount', daiBalance)}}
+      onClick={this.setMax.bind(this)}
         >{daiBalance ? `Balance: ${daiBalance} DAI` : '-'}</Button>
-        <TextField label="DAI Amount" placeholder='0' className={classes.input} value={joinAmount ? joinAmount : ''} margin="normal" variant="outlined" type="number" onChange={(event) => {
-                                store.set('joinAmount', event.target.value)
-                       }} InputProps={{ inputProps: { min: 0 },
+        <TextField label="DAI Amount" placeholder='0' className={classes.input} value={joinAmount ? joinAmount : ''} margin="normal" variant="outlined" type="number" onChange={this.handleInput.bind(this)} InputProps={{ inputProps: { min: 0 },
                                 endAdornment: <InputAdornment className={classes.endAdornment} position="end">DAI</InputAdornment>
                             }}
       helperText={(isSignedIn && joinAmount) ? "You will receive approximately " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": " "}
@@ -106,11 +133,9 @@ class JoinExitContainer extends React.Component {
                     <Typography variant='subtitle2'>Convert Chai back to Dai</Typography>
         <Button variant="subtitle2" className={classes.accountBalance}
       style={{textTransform: 'none'}}
-      onClick={() => {store.set('exitAmount', chaiBalance)}}
+      onClick={this.setMax.bind(this)}
         >{chaiBalance? `Balance: ${chaiBalance} CHAI` : '-'}</Button>
-        <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" value={exitAmount ? exitAmount : ''} type="number" onChange={(event) => {
-                            store.set('exitAmount', event.target.value)
-            }} InputProps={{ inputProps: { min: 0 },
+        <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" value={exitAmount ? exitAmount : ''} type="number" onChange={this.handleInput.bind(this)} InputProps={{ inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                         }}
       helperText={(isSignedIn && exitAmount) ? "You will receive at least: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": " "}

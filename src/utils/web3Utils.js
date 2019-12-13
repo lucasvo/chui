@@ -1,13 +1,21 @@
-import Web3 from "web3";
-import config from '../config.json';
-import daiABI from '../abi/Dai.abi.json';
-import potABI from '../abi/Pot.abi.json';
-import chaiABI from '../abi/Chai.abi.json';
-import { Decimal } from 'decimal.js-light';
+import Web3 from "web3"
+import config from '../config.json'
+import daiABI from '../abi/Dai.abi.json'
+import potABI from '../abi/Pot.abi.json'
+import chaiABI from '../abi/Chai.abi.json'
+import { Decimal } from 'decimal.js-light'
 
-const daiAddress = config.MCD_DAI;
-const potAddress = config.MCD_POT;
-const chaiAddress = config.CHAI;
+const daiAddress = config.MCD_DAI
+const potAddress = config.MCD_POT
+const chaiAddress = config.CHAI
+
+export const WadDecimal = Decimal.clone({
+  rounding: 1, // round down
+  precision: 78,
+  toExpNeg: -18,
+  toExpPos: 78,
+})
+
 
 export const getPotDsr = async function() {
   const { store } = this.props
@@ -17,7 +25,7 @@ export const getPotDsr = async function() {
   const dsrRaw = await pot.methods.dsr().call()
   if (dsrRaw === store.get('dsrRaw')) return
   store.set('dsrRaw', dsrRaw)
-  let dsr = new DsrDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(2)
+  let dsr = new WadDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(2)
   store.set('dsr', dsr.toString())
 }
 
@@ -28,7 +36,7 @@ export const getPotChi = async function() {
   const chiRaw = await pot.methods.chi().call()
   if (chiRaw === store.get('chiRaw')) return
   store.set('chiRaw', chiRaw)
-  let chi = new DsrDecimal(chiRaw).div('1e27').toPrecision(5)
+  let chi = new WadDecimal(chiRaw).div('1e27').toPrecision(5)
   store.set('chi', chi.toString())
 }
 
@@ -48,6 +56,8 @@ export const getDaiBalance = async function() {
   const dai = store.get('daiObject')
   if (!dai || !walletAddress) return
   const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call()
+  const daiBalanceDecimal = new WadDecimal(daiBalanceRaw).div('1e18')
+  store.set('daiBalanceDecimal', daiBalanceDecimal)
   const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(5)
   store.set('daiBalance', daiBalance)
 }
@@ -58,26 +68,28 @@ export const getChaiBalance = async function() {
   const chai = store.get('chaiObject')
   const walletAddress = store.get('walletAddress')
   if (!chai || !walletAddress) return
-  const chaiBalanceRaw = await chai.methods.balanceOf(walletAddress).call();
+  const chaiBalanceRaw = await chai.methods.balanceOf(walletAddress).call()
   store.set('chaiBalanceRaw', chaiBalanceRaw)
-  const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(5);
+  const chaiBalanceDecimal = new WadDecimal(chaiBalanceRaw).div('1e18')
+  store.set('chaiBalanceDecimal', chaiBalanceDecimal)
+  const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(5)
   store.set('chaiBalance', chaiBalance)
 }
 
 export const toChai = function(daiAmount) {
-  const daiDecimal = daiAmount ? new DsrDecimal(daiAmount).div('1e18') : new DsrDecimal(0)
+  const daiDecimal = daiAmount ? new WadDecimal(daiAmount).div('1e18') : new WadDecimal(0)
   const { store } = this.props
   if (!store.get('chi')) return
-  const chiDecimal = new DsrDecimal(store.get('chi'))
+  const chiDecimal = new WadDecimal(store.get('chi'))
   return daiDecimal.div(chiDecimal).toFixed(5)
 }
 
 
 export const toDai = function(chaiAmount) {
-  const chaiDecimal = chaiAmount ? new DsrDecimal(chaiAmount).div('1e18') : new DsrDecimal(0)
+  const chaiDecimal = chaiAmount ? new WadDecimal(chaiAmount).div('1e18') : new WadDecimal(0)
   const { store } = this.props
   if (!store.get('chi')) return
-  const chiDecimal = new DsrDecimal(store.get('chi'))
+  const chiDecimal = new WadDecimal(store.get('chi'))
   return chiDecimal.mul(chaiDecimal).toFixed(5)
 }
 
@@ -98,25 +110,19 @@ export const getData = async function() {
     getChaiBalance.bind(this)()
 }
 
-export const DsrDecimal = Decimal.clone({
-  precision: 30,
-  toExpNeg: -7,
-  toExpPos: 29,
-});
-
-const secondsInYear = DsrDecimal(60 * 60 * 24 * 365);
+const secondsInYear = WadDecimal(60 * 60 * 24 * 365)
 
 export const initBrowserWallet = async function() {
     const store = this.props.store
 
     store.set('walletLoading', true)
 
-    let web3Provider;
+    let web3Provider
 
     // Initialize web3 (https://medium.com/coinmonks/web3-js-ethereum-javascript-api-72f7b22e2f0a)
     // Modern dApp browsers...
     if (window.ethereum) {
-        web3Provider = window.ethereum;
+        web3Provider = window.ethereum
         try {
             // Request account access
             await window.ethereum.enable()
@@ -141,14 +147,13 @@ export const initBrowserWallet = async function() {
     }
 
     const web3 = new Web3(web3Provider)
-    const network = await web3.eth.net.getId();
+    const network = await web3.eth.net.getId()
     store.set('network', network)
     store.set('web3Failure', false)
     store.set('web3', web3)
     const walletType = 'browser'
     const accounts = await web3.eth.getAccounts()
 
-    // await window.ethereum.enable();
     store.set('walletLoading', false)
     store.set('walletAddress', accounts[0])
     store.set('walletType', walletType)

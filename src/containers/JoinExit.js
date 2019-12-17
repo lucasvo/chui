@@ -74,7 +74,7 @@ class JoinExitContainer extends React.Component {
       try {
         value = new WadDecimal(event.target.value).toString()
       } catch {
-        return
+        value = ""
       }
       if (action === 0) {
         store.set('joinAmount', value)

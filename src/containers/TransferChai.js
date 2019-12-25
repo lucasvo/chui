@@ -2,7 +2,7 @@ import React from 'react';
 import {withStore} from '@spyna/react-store'
 import {withStyles} from '@material-ui/styles';
 import theme from '../theme/theme'
-import { getData, toDai } from '../utils/web3Utils'
+import { WadDecimal, getData, toDai } from '../utils/web3Utils'
 import { transfer } from '../actions/main'
 
 import Box from '@material-ui/core/Box';
@@ -51,16 +51,37 @@ class TransferChaiContainer extends React.Component {
         transfer.bind(this)()
     }
 
+    setMax() {
+      const {store} = this.props
+      const chaiBalanceDecimal = store.get('chaiBalanceDecimal')
+      store.set('transferAmount', chaiBalanceDecimal)
+    }
+
+
+    handleInput(event) {
+      const {store} = this.props
+      let value
+      try {
+        value = new WadDecimal(event.target.value).toString()
+      } catch {
+        value = ""
+      }
+        store.set('transferAmount', value)
+    }
+
+
     render() {
         const {classes, store} = this.props
 
         const walletAddress = store.get('walletAddress')
         const chaiBalance = store.get('chaiBalance')
         const transferAmount = store.get('transferAmount');
+        const transferAddress = store.get('transferAddress');
+        const chaiBalanceDecimal = store.get('chaiBalanceDecimal')
         const web3 = store.get('web3');
         const isSignedIn = walletAddress && walletAddress.length
 
-        const canTransfer = transferAmount && (Number(transferAmount) <= Number(chaiBalance))
+        const canTransfer = transferAmount && transferAddress && (Number(transferAmount) <= Number(chaiBalanceDecimal))
 
         return <Grid container spacing={3}>
                <Grid item xs={12}><Card><CardContent>
@@ -68,11 +89,11 @@ class TransferChaiContainer extends React.Component {
         <Typography variant='subtitle2'>Send Chai to any address</Typography>
         <Button variant='subtitle2' className={classes.accountBalance}
             style={{textTransform: 'none'}}
-      onClick={() => {store.set('transferAmount', chaiBalance)}}
+      onClick={this.setMax.bind(this)}
         >{chaiBalance ? `Balance: ${chaiBalance} CHAI` : '-'}</Button>
                 <Grid container alignItems="start" spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <TextField label='Receiving address' placeholder='0x' className={classes.input} margin="normal" variant="outlined" onChange={(event) => {
+        <TextField label='Receiving address' placeholder='0x' className={classes.input} margin="normal" variant="outlined" onChange={(event) => {
                             store.set('transferAddress', event.target.value)
                         }} />
         </Grid>

@@ -16,6 +16,9 @@ export const WadDecimal = Decimal.clone({
   toExpPos: 78,
 })
 
+function toFixed(num, precision) {
+    return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
+}
 
 export const getPotDsr = async function() {
   const { store } = this.props
@@ -25,7 +28,7 @@ export const getPotDsr = async function() {
   const dsrRaw = await pot.methods.dsr().call()
   if (dsrRaw === store.get('dsrRaw')) return
   store.set('dsrRaw', dsrRaw)
-  let dsr = new WadDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100).toPrecision(2)
+  let dsr = toFixed(new WadDecimal(dsrRaw).div('1e27').pow(secondsInYear).minus(1).mul(100), 2)
   store.set('dsr', dsr.toString())
 }
 
@@ -36,7 +39,7 @@ export const getPotChi = async function() {
   const chiRaw = await pot.methods.chi().call()
   if (chiRaw === store.get('chiRaw')) return
   store.set('chiRaw', chiRaw)
-  let chi = new WadDecimal(chiRaw).div('1e27').toPrecision(5)
+  let chi = toFixed(new WadDecimal(chiRaw).div('1e27'), 5)
   store.set('chi', chi.toString())
 }
 
@@ -58,7 +61,7 @@ export const getDaiBalance = async function() {
   const daiBalanceRaw = await dai.methods.balanceOf(walletAddress).call()
   const daiBalanceDecimal = new WadDecimal(daiBalanceRaw).div('1e18')
   store.set('daiBalanceDecimal', daiBalanceDecimal)
-  const daiBalance = parseFloat(web3.utils.fromWei(daiBalanceRaw)).toFixed(5)
+  const daiBalance = toFixed(parseFloat(web3.utils.fromWei(daiBalanceRaw)),5)
   store.set('daiBalance', daiBalance)
 }
 
@@ -72,7 +75,7 @@ export const getChaiBalance = async function() {
   store.set('chaiBalanceRaw', chaiBalanceRaw)
   const chaiBalanceDecimal = new WadDecimal(chaiBalanceRaw).div('1e18')
   store.set('chaiBalanceDecimal', chaiBalanceDecimal)
-  const chaiBalance = parseFloat(web3.utils.fromWei(chaiBalanceRaw)).toFixed(5)
+  const chaiBalance = toFixed(parseFloat(web3.utils.fromWei(chaiBalanceRaw)),5)
   store.set('chaiBalance', chaiBalance)
 }
 
@@ -81,7 +84,7 @@ export const toChai = function(daiAmount) {
   const { store } = this.props
   if (!store.get('chi')) return
   const chiDecimal = new WadDecimal(store.get('chi'))
-  return daiDecimal.div(chiDecimal).toFixed(5)
+  return toFixed(daiDecimal.div(chiDecimal),5)
 }
 
 
@@ -90,7 +93,7 @@ export const toDai = function(chaiAmount) {
   const { store } = this.props
   if (!store.get('chi')) return
   const chiDecimal = new WadDecimal(store.get('chi'))
-  return chiDecimal.mul(chaiDecimal).toFixed(5)
+  return toFixed(chiDecimal.mul(chaiDecimal),5)
 }
 
 

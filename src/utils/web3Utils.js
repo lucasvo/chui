@@ -115,15 +115,15 @@ export const getData = async function() {
 
 const secondsInYear = WadDecimal(60 * 60 * 24 * 365)
 
-export const initBrowserWallet = async function() {
+export const initBrowserWallet = async function(prompt) {
     const store = this.props.store
 
     store.set('walletLoading', true)
+    if (!localStorage.getItem('walletKnown') && !prompt) return
 
     let web3Provider
 
     // Initialize web3 (https://medium.com/coinmonks/web3-js-ethereum-javascript-api-72f7b22e2f0a)
-    // Modern dApp browsers...
     if (window.ethereum) {
         web3Provider = window.ethereum
         try {
@@ -156,7 +156,7 @@ export const initBrowserWallet = async function() {
     store.set('web3', web3)
     const walletType = 'browser'
     const accounts = await web3.eth.getAccounts()
-
+    localStorage.setItem('walletKnown', true)
     store.set('walletLoading', false)
     store.set('walletAddress', accounts[0])
     store.set('walletType', walletType)

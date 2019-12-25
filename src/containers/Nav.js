@@ -1,17 +1,17 @@
-import React from 'react';
+import React from 'react'
 import { withStore } from '@spyna/react-store'
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles'
 import theme from '../theme/theme'
 import { initBrowserWallet } from '../utils/web3Utils'
-import config from '../config.json';
+import config from '../config.json'
 
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 import logostill from '../assets/logostill.png'
 
@@ -51,19 +51,24 @@ const styles = () => ({
 })
 
 class NavContainer extends React.Component {
-    async componentDidMount() {
-    }
+  async componentDidMount() {
+    initBrowserWallet.call(this)
+  }
+
+  connect () {
+    initBrowserWallet.call(this, true)
+  }
 
   render() {
-        const {
-            classes,
-            store
-        } = this.props
+      const {
+          classes,
+          store
+      } = this.props
 
-        const walletAddress = store.get('walletAddress')
-        const web3Failure = store.get('web3Failure')
-        const network = store.get('network')
-    return <Grid item sm={12}>
+      const walletAddress = store.get('walletAddress')
+      const web3Failure = store.get('web3Failure')
+      const network = store.get('network')
+      return <Grid item sm={12}>
               <Dialog
                  open={
                    network !== config.network}
@@ -98,7 +103,7 @@ class NavContainer extends React.Component {
             </div>
           </Grid>
           <Grid item sm={12} md={4} className={classes.accountItem}>
-            <Button color='primary' onClick={initBrowserWallet.bind(this)} variant={walletAddress ? 'text' : "contained"} className={classes.accountButton}>
+            <Button color='primary' onClick={() => { this.connect()}} variant={walletAddress ? 'text' : "contained"} className={classes.accountButton}>
                       {walletAddress ? (walletAddress.slice(0,7) + '...' + walletAddress.slice(walletAddress.length - 5)) : 'Connect wallet'}
             </Button>
           </Grid>

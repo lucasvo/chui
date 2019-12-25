@@ -1,22 +1,22 @@
-import React from 'react';
+import React from 'react'
 import { createStore } from '@spyna/react-store'
-import Web3 from 'web3';
+import Web3 from 'web3'
 
-import config from './config.json';
-import daiABI from './abi/Dai.abi.json';
-import potABI from './abi/Pot.abi.json';
-import chaiABI from './abi/Chai.abi.json';
+import config from './config.json'
+import daiABI from './abi/Dai.abi.json'
+import potABI from './abi/Pot.abi.json'
+import chaiABI from './abi/Chai.abi.json'
 
 import NavContainer from './containers/Nav'
 import JoinExitContainer from './containers/JoinExit'
 import ChaiBalanceContainer from './containers/ChaiBalance'
 import TransferChaiContainer from './containers/TransferChai'
-import {setupContracts, getData} from './utils/web3Utils'
+import { setupContracts, getData } from './utils/web3Utils'
 
 import theme from './theme/theme'
 
-import Typography from '@material-ui/core/Typography';
-import { withStyles, ThemeProvider } from '@material-ui/styles';
+import Typography from '@material-ui/core/Typography'
+import { withStyles, ThemeProvider } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 
@@ -43,7 +43,7 @@ const styles = () => ({
   }
 })
 
-const web3 = new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider));
+const web3 = new Web3(new Web3.providers.HttpProvider(config.defaultWeb3Provider))
 
 const initialState = {
     web3: web3,
@@ -69,7 +69,7 @@ const initialState = {
 
 class App extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
         }
     }
@@ -110,7 +110,7 @@ class App extends React.Component {
                     </Grid>
                 </Container>
             </ThemeProvider>
-        );
+        )
     }
 }
 

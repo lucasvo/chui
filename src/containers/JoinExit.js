@@ -37,7 +37,6 @@ class JoinExitContainer extends React.Component {
     async componentDidMount() {
         // update data periodically
         this.watchData()
-
     }
 
     async watchData() {

@@ -3,7 +3,9 @@ import config from '../config.json'
 import daiABI from '../abi/Dai.abi.json'
 import potABI from '../abi/Pot.abi.json'
 import chaiABI from '../abi/Chai.abi.json'
-import { Decimal } from 'decimal.js-light'
+let Decimal = require('decimal.js-light')
+Decimal = require('toformat')(Decimal)
+
 
 const daiAddress = config.MCD_DAI
 const potAddress = config.MCD_POT
@@ -15,6 +17,11 @@ export const WadDecimal = Decimal.clone({
   toExpNeg: -18,
   toExpPos: 78,
 })
+
+WadDecimal.format = {
+  groupSeparator: "'",
+  groupSize: 3,
+}
 
 function toFixed(num, precision) {
     return (+(Math.round(+(num + 'e' + precision)) + 'e' + -precision)).toFixed(precision);
@@ -79,6 +86,16 @@ export const getChaiBalance = async function() {
   store.set('chaiBalance', chaiBalance)
 }
 
+export const getChaiTotalSupply = async function() {
+  const { store } = this.props
+  const web3 = store.get('web3')
+  const chai = store.get('chaiObject')
+  if (!chai) return
+  const chaiTotalSupplyRaw = await chai.methods.totalSupply().call()
+  const chaiTotalSupplyDecimal = new WadDecimal(chaiTotalSupplyRaw).div('1e18')
+  store.set('chaiTotalSupply', chaiTotalSupplyDecimal.toFormat(5))
+}
+
 export const toChai = function(daiAmount) {
   const daiDecimal = daiAmount ? new WadDecimal(daiAmount).div('1e18') : new WadDecimal(0)
   const { store } = this.props
@@ -111,6 +128,7 @@ export const getData = async function() {
     getDaiAllowance.bind(this)()
     getDaiBalance.bind(this)()
     getChaiBalance.bind(this)()
+    getChaiTotalSupply.bind(this)()
 }
 
 const secondsInYear = WadDecimal(60 * 60 * 24 * 365)

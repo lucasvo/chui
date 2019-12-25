@@ -10,6 +10,7 @@ import chaiABI from './abi/Chai.abi.json'
 import NavContainer from './containers/Nav'
 import JoinExitContainer from './containers/JoinExit'
 import ChaiBalanceContainer from './containers/ChaiBalance'
+import TotalSupplyContainer from './containers/TotalSupply'
 import TransferChaiContainer from './containers/TransferChai'
 import { setupContracts, getData } from './utils/web3Utils'
 
@@ -64,6 +65,7 @@ const initialState = {
     dsr: '',
     chi: '',
     chiRaw:'',
+    chaiTotalSupply:'',
     joinexitAction: 0,
 }
 
@@ -97,7 +99,8 @@ class App extends React.Component {
                           <TransferChaiContainer />
                         </Grid>
                         <Grid item xs={12} className={classes.footer}>
-                          Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a>
+                          Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a><br />
+                          <TotalSupplyContainer />
                         </Grid>
                         <Grid item xs={12} className={classes.footer}>
                          chai.money by

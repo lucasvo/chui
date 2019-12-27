@@ -93,7 +93,7 @@ export const getChaiTotalSupply = async function() {
   if (!chai) return
   const chaiTotalSupplyRaw = await chai.methods.totalSupply().call()
   const chaiTotalSupplyDecimal = new WadDecimal(chaiTotalSupplyRaw)
-  store.set('chaiTotalSupply', toDai.bind(this)(chaiTotalSupplyDecimal)
+  store.set('chaiTotalSupply', toDai.bind(this)(chaiTotalSupplyDecimal))
 }
 
 export const toChai = function(daiAmount) {

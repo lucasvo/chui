@@ -92,8 +92,8 @@ export const getChaiTotalSupply = async function() {
   const chai = store.get('chaiObject')
   if (!chai) return
   const chaiTotalSupplyRaw = await chai.methods.totalSupply().call()
-  const chaiTotalSupplyDecimal = new WadDecimal(chaiTotalSupplyRaw).div('1e18')
-  store.set('chaiTotalSupply', chaiTotalSupplyDecimal.toFormat(5))
+  const chaiTotalSupplyDecimal = new WadDecimal(chaiTotalSupplyRaw)
+  store.set('chaiTotalSupply', toDai.bind(this)(chaiTotalSupplyDecimal).toFormat(5))
 }
 
 export const toChai = function(daiAmount) {
@@ -110,7 +110,7 @@ export const toDai = function(chaiAmount) {
   const { store } = this.props
   if (!store.get('chi')) return
   const chiDecimal = new WadDecimal(store.get('chi'))
-  return toFixed(chiDecimal.mul(chaiDecimal),5)
+  return chiDecimal.mul(chaiDecimal)
 }
 
 

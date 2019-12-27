@@ -7,7 +7,7 @@ class TotalSupplyContainer extends React.Component {
       const {store} = this.props
       const chaiTotalSupply = store.get('chaiTotalSupply')
       if (chaiTotalSupply) {
-        return (<p>Chai Total Supply: {chaiTotalSupply}</p>)
+        return (<p>Dai locked in Chai: {chaiTotalSupply} DAI</p>)
       } else {
         return ""
       }

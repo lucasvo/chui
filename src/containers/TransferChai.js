@@ -56,7 +56,11 @@ class TransferChaiContainer extends React.Component {
       try {
         store.set('transferAmount', new WadDecimal(event.target.value))
       } catch {
-        return
+        if (event.target.value.length === 0) {
+          value = new WadDecimal(0)
+        } else {
+          return
+        }
       }
     }
 
@@ -107,7 +111,7 @@ class TransferChaiContainer extends React.Component {
             InputProps={{inputProps: { min: 0 },
                         endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                                        }}
-            helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(transferAmount.div(10**18).toString()) + " Dai": " "}
+            helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(transferAmount.div(10**18).toFormat(5)) + " Dai": " "}
         />
                   </Grid>
 

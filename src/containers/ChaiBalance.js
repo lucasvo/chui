@@ -43,7 +43,7 @@ class ChaiBalanceContainer extends React.Component {
         const dsrPercent = dsr;
         const chaiBalance = store.get('chaiBalance')
         const chaiBalanceRaw = store.get('chaiBalanceRaw')
-        const daiEquiv = chaiBalanceRaw ? toDai.bind(this)(chaiBalanceRaw) : undefined
+        const daiEquiv = chaiBalanceRaw ? toDai.bind(this)(chaiBalanceRaw).toFormat(5) : undefined
       return <Card ><CardContent>
         <h2>You have {chaiBalance ? daiEquiv : '0'} Dai brewing</h2>
                  <CardMedia

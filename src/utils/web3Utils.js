@@ -19,7 +19,7 @@ export const WadDecimal = Decimal.clone({
 })
 
 WadDecimal.format = {
-  groupSeparator: "'",
+  groupSeparator: ",",
   groupSize: 3,
 }
 

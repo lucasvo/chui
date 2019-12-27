@@ -56,7 +56,7 @@ export const getDaiAllowance = async function() {
   const dai = store.get('daiObject')
   if (!dai || !walletAddress) return
   const daiAllowance = await dai.methods.allowance(walletAddress, chaiAddress).call()
-  store.set('daiAllowance', daiAllowance)
+  store.set('daiAllowance', new WadDecimal(daiAllowance).div('1e18'))
 }
 
 export const getDaiBalance = async function() {

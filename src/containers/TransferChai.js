@@ -51,6 +51,15 @@ class TransferChaiContainer extends React.Component {
         transfer.bind(this)()
     }
 
+    handleInput(event) {
+      const {store} = this.props
+      try {
+        store.set('transferAmount', new WadDecimal(event.target.value))
+      } catch {
+        return
+      }
+    }
+
     setMax() {
       const {store} = this.props
       const chaiBalanceDecimal = store.get('chaiBalanceDecimal')
@@ -58,30 +67,19 @@ class TransferChaiContainer extends React.Component {
     }
 
 
-    handleInput(event) {
-      const {store} = this.props
-      let value
-      try {
-        value = new WadDecimal(event.target.value).toString()
-      } catch {
-        value = ""
-      }
-        store.set('transferAmount', value)
-    }
-
 
     render() {
         const {classes, store} = this.props
 
         const walletAddress = store.get('walletAddress')
         const chaiBalance = store.get('chaiBalance')
-        const transferAmount = store.get('transferAmount');
-        const transferAddress = store.get('transferAddress');
+        const transferAmount = store.get('transferAmount')
+        const transferAddress = store.get('transferAddress')
         const chaiBalanceDecimal = store.get('chaiBalanceDecimal')
         const web3 = store.get('web3');
         const isSignedIn = walletAddress && walletAddress.length
 
-        const canTransfer = transferAmount && transferAddress && (Number(transferAmount) <= Number(chaiBalanceDecimal))
+        const canTransfer = transferAmount && transferAddress && (transferAmount <= chaiBalanceDecimal)
 
         return <Grid container spacing={3}>
                <Grid item xs={12}><Card><CardContent>
@@ -98,11 +96,18 @@ class TransferChaiContainer extends React.Component {
                         }} />
         </Grid>
                           <Grid item xs={12} md={6} spacing={3}>
-        <TextField label="CHAI Value" placeholder='0' className={classes.input} margin="normal" value={transferAmount ? transferAmount : ''} variant="outlined" type="number" onChange={(event) => {
-                            store.set('transferAmount', event.target.value)
-                        }} InputProps={{inputProps: { min: 0 },
-                            endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
-                                       }} helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(web3.utils.toWei(String(transferAmount))) + " Dai": " "}
+        <TextField label="CHAI Value"
+            placeholder='0'
+            className={classes.input}
+            margin="normal"
+            value={transferAmount ? transferAmount : ''}
+            variant="outlined"
+            type="number"
+            onChange={this.handleInput.bind(this)}
+            InputProps={{inputProps: { min: 0 },
+                        endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
+                                       }}
+            helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(transferAmount.div(10**18).toString()) + " Dai": " "}
         />
                   </Grid>
 

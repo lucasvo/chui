@@ -104,9 +104,9 @@ class App extends React.Component {
                         </Grid>
                         <Grid item xs={12} className={classes.footer}>
                          chai.money by
-                              <a target="_blank" href="https://twitter.com/martinlundfall" rel="noopener noreferrer">Martin Lundfall</a>,
-                              <a target="_blank" href="https://lucasvo.com" rel="noopener noreferrer">Lucas Vogelsang</a>,
-                              <a target="_blank" href="https://lev.liv.nev.org.uk" rel="noopener noreferrer">Lev Livnev</a>.<br />
+                              <a target="_blank" href="https://twitter.com/martinlundfall" rel="noopener noreferrer">Martin Lundfall</a>,&nbsp;
+                              <a target="_blank" href="https://lucasvo.com" rel="noopener noreferrer">Lucas Vogelsang</a>,&nbsp;
+                              <a target="_blank" href="https://lev.liv.nev.org.uk" rel="noopener noreferrer">Lev Livnev</a>. <br />
                          Pixel art by <a target="_blank" href="https://twitter.com/abbey_titcomb" rel="noopener noreferrer">Abbey Titcomb</a>
                          &nbsp; UI at <a href="https://github.com/lucasvo/chui">github.com/lucasvo/chui</a>
                         </Grid>

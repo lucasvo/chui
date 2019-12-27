@@ -71,9 +71,9 @@ class JoinExitContainer extends React.Component {
       const action = store.get('joinexitAction')
       let value
       try {
-        value = new WadDecimal(event.target.value).toString()
+        value = new WadDecimal(event.target.value)
       } catch {
-        value = ""
+        return
       }
       if (action === 0) {
         store.set('joinAmount', value)
@@ -99,8 +99,8 @@ class JoinExitContainer extends React.Component {
         const web3 = store.get('web3')
         const isSignedIn = walletAddress && walletAddress.length
 
-        const canJoin = joinAmount && (joinAmount <= daiBalanceDecimal)
-        const canExit = exitAmount && (exitAmount <= chaiBalanceDecimal)
+        const canJoin = joinAmount && (joinAmount.cmp(daiBalanceDecimal) < 1)
+        const canExit = exitAmount && (exitAmount.cmp(chaiBalanceDecimal) < 1)
 
         const joinexitAction = store.get('joinexitAction')
 

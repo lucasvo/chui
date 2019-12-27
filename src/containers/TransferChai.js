@@ -71,7 +71,6 @@ class TransferChaiContainer extends React.Component {
     }
 
 
-
     render() {
         const {classes, store} = this.props
 
@@ -111,7 +110,7 @@ class TransferChaiContainer extends React.Component {
             InputProps={{inputProps: { min: 0 },
                         endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                                        }}
-            helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(transferAmount.div(10**18).toFormat(5)) + " Dai": " "}
+            helperText={(isSignedIn && transferAmount) ? "Worth: ~" + toDai.bind(this)(transferAmount.mul(10**18)) + " Dai": " "}
         />
                   </Grid>
 

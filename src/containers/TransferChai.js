@@ -57,7 +57,7 @@ class TransferChaiContainer extends React.Component {
         store.set('transferAmount', new WadDecimal(event.target.value))
       } catch {
         if (event.target.value.length === 0) {
-          value = new WadDecimal(0)
+          store.set('transferAmount', new WadDecimal(0))
         } else {
           return
         }

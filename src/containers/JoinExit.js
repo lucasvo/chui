@@ -120,7 +120,7 @@ class JoinExitContainer extends React.Component {
       style={{textTransform: 'none'}}
       onClick={this.setMax.bind(this)}
         >{daiBalance ? `Balance: ${daiBalance} DAI` : '-'}</Button>
-        <TextField label="DAI Amount" placeholder='0' className={classes.input} value={joinAmount ? joinAmount : ''} margin="normal" variant="outlined" type="number" onChange={this.handleInput.bind(this)} InputProps={{ inputProps: { min: 0 },
+        <TextField label="DAI Amount" placeholder='0' className={classes.input} value={joinAmount.toString() !== "0" ? joinAmount : ''} margin="normal" variant="outlined" type="number" onChange={this.handleInput.bind(this)} InputProps={{ inputProps: { min: 0 },
                                 endAdornment: <InputAdornment className={classes.endAdornment} position="end">DAI</InputAdornment>
                             }}
       helperText={(isSignedIn && joinAmount) ? "You will receive approximately " + toChai.bind(this)(web3.utils.toWei(String(joinAmount))) + " Chai": " "}
@@ -139,7 +139,7 @@ class JoinExitContainer extends React.Component {
       style={{textTransform: 'none'}}
       onClick={this.setMax.bind(this)}
         >{chaiBalance? `Balance: ${chaiBalance} CHAI` : '-'}</Button>
-        <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" value={exitAmount ? exitAmount : ''} type="number" onChange={this.handleInput.bind(this)} InputProps={{ inputProps: { min: 0 },
+        <TextField label="CHAI Amount" placeholder='0' className={classes.input} margin="normal" variant="outlined" value={exitAmount.toString() !== "0" ? exitAmount : ''} type="number" onChange={this.handleInput.bind(this)} InputProps={{ inputProps: { min: 0 },
                             endAdornment: <InputAdornment className={classes.endAdornment} position="end">CHAI</InputAdornment>
                         }}
       helperText={(isSignedIn && exitAmount) ? "You will receive at least: " + toDai.bind(this)(web3.utils.toWei(String(exitAmount))) + " Dai": " "}

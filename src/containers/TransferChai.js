@@ -103,7 +103,7 @@ class TransferChaiContainer extends React.Component {
             placeholder='0'
             className={classes.input}
             margin="normal"
-            value={transferAmount ? transferAmount : ''}
+            value={transferAmount.toString() !== "0" ? transferAmount : ''}
             variant="outlined"
             type="number"
             onChange={this.handleInput.bind(this)}

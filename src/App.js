@@ -12,7 +12,7 @@ import JoinExitContainer from './containers/JoinExit'
 import ChaiBalanceContainer from './containers/ChaiBalance'
 import TotalSupplyContainer from './containers/TotalSupply'
 import TransferChaiContainer from './containers/TransferChai'
-import { setupContracts, getData } from './utils/web3Utils'
+import { setupContracts, getData, WadDecimal } from './utils/web3Utils'
 
 import theme from './theme/theme'
 
@@ -58,15 +58,20 @@ const initialState = {
     walletType: '',
     daiBalance: '',
     daiAllowance: '',
+    daiBalanceDecimal: new WadDecimal(0),
     allowanceAvailable: false,
     chaiBalance: '',
     chaiBalanceRaw: '',
+    chaiBalanceDecimal: new WadDecimal(0),
     dsrRaw: '',
     dsr: '',
     chi: '',
     chiRaw:'',
     chaiTotalSupply:'',
+    joinAmount: new WadDecimal(0),
+    exitAmount: new WadDecimal(0),
     joinexitAction: 0,
+    transferAmount: new WadDecimal(0),
 }
 
 class App extends React.Component {

@@ -27,50 +27,25 @@ class CurrencyInput extends React.Component {
         this.state = {
             currency: ''
         }
+        this.value = null;
+    }
+
+    handleInput(event) {
+      this.value
+      try {
+        this.value = new WadDecimal(event.target.value)
+      } catch {
+        if (event.target.value.length === 0) {
+          this.value = new WadDecimal(0)
+        } else {
+          return
+        }
+      }
+      this.props.onChange(this.value);
     }
 
     render() {
-        const {
-            classes,
-            onCurrencyChange,
-            onAmountChange,
-            items
-        } = this.props
 
-        const {
-            currency
-        } = this.state
-
-        return <TextField
-            id=""
-            className={classes.amountField}
-            placeholder='0.00000000'
-            margin="normal"
-            variant="outlined"
-            onChange={(event) => {
-                if (onAmountChange) {
-                    onAmountChange(Number(event.target.value))
-                }
-            }}
-            InputProps={{
-                endAdornment: <InputAdornment position="end">
-                    {items && items.length && items.length > 1 ? <InputAdornment position="end">
-                        <Select
-                          value={currency || items[0]}
-                          onChange={(event) => {
-                              // console.log(value)
-                              onCurrencyChange(event.target.value)
-                              this.setState({ currency: event.target.value })
-                          }}
-                          inputProps={{}}
-                        >
-                        {items.map((i, index) => <MenuItem key={index} value={i}>{i}</MenuItem>)}
-                        </Select>
-                    </InputAdornment> : <InputAdornment className={classes.endAdornment} position="end">{items[0]}</InputAdornment>}
-                </InputAdornment>
-            }}
-            inputProps={{ 'aria-label': 'bare' }}
-          />
     }
 }
 

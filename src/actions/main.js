@@ -31,7 +31,7 @@ export const transfer = async function() {
     const { store } = this.props
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
-    const transferAmount = store.get('transferAmount')
+    const transferAmount = store.get('transferAmount').mul(10**18)
     const transferAddress = store.get('transferAddress')
     const walletAddress = store.get('walletAddress')
     return chai.methods.transfer(transferAddress, transferAmount.toFixed()).send({from: walletAddress})

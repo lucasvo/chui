@@ -5,9 +5,10 @@ import {withStore} from '@spyna/react-store'
 class TotalSupplyContainer extends React.Component {
     render() {
       const {store} = this.props
-      const chaiTotalSupply = store.get('chaiTotalSupply')
+      let chaiTotalSupply = store.get('chaiTotalSupply')
       if (chaiTotalSupply) {
-        return (<p>Dai locked in Chai: {chaiTotalSupply.toFormat(5)} DAI</p>)
+        chaiTotalSupply = chaiTotalSupply.toFormat(5, {groupSeparator: ',', groupSize: 3})
+        return (<p>Dai locked in Chai: {chaiTotalSupply} DAI</p>)
       } else {
         return ""
       }

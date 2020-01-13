@@ -106,9 +106,10 @@ class App extends React.Component {
                         <Grid item xs={12} className={classes.footer}>
                           Interacting with the Chai contract at: <a target="_blank" href={"https://etherscan.io/token/" + config.CHAI} rel="noopener noreferrer">{config.CHAI}</a><br />
                           <TotalSupplyContainer />
+                          <a href="/about.html">Learn more about Chai</a>
                         </Grid>
                         <Grid item xs={12} className={classes.footer}>
-                         chai.money by
+                         chai.money by&nbsp;
                               <a target="_blank" href="https://twitter.com/martinlundfall" rel="noopener noreferrer">Martin Lundfall</a>,&nbsp;
                               <a target="_blank" href="https://lucasvo.com" rel="noopener noreferrer">Lucas Vogelsang</a>,&nbsp;
                               <a target="_blank" href="https://lev.liv.nev.org.uk" rel="noopener noreferrer">Lev Livnev</a>. <br />

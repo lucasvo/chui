@@ -56,7 +56,7 @@ class ChaiBalanceContainer extends React.Component {
         <p>Chai balance: {chaiBalance ? `${chaiBalance}` : '-'}</p>
         <p>1 CHAI = {chi ? `${chi}` : '?'} DAI</p>
         <p>Dai Savings Rate: {dsrPercent ? `${dsrPercent}% per year` : '-'}</p>
-        <a target="_blank" href="/about" rel="noopener noreferrer">Learn more</a>
+        <a target="_blank" href="/about.html" rel="noopener noreferrer">Learn more</a>
         </CardContent></Card>
     }
 }

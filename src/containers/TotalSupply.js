@@ -7,7 +7,7 @@ class TotalSupplyContainer extends React.Component {
       const {store} = this.props
       let chaiTotalSupply = store.get('chaiTotalSupply')
       if (chaiTotalSupply) {
-        chaiTotalSupply = chaiTotalSupply.toFormat(5, {groupSeparator: ',', groupSize: 3})
+        chaiTotalSupply = chaiTotalSupply.toFormat(2, {groupSeparator: ',', groupSize: 3})
         return (<p>Dai locked in Chai: {chaiTotalSupply} DAI</p>)
       } else {
         return ""

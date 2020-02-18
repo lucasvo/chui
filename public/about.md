@@ -23,7 +23,7 @@ A Dai user can convert their Dai into Chai at any point, by calling `join`. Like
 ### Dai-denominated transfers and withdrawals
 
 With the amount of Dai redeemable for one Chai constantly growing, the contract offers a few helper functions that operate on Chai balances in terms of their underlying Dai value.
-For example, with the method `move(address sender, address receiver, uint value)`, the `sender` will transfer just enough Chai to ensure that the `receiver` gets an amount of Chai worth `value` Dai (the exact amount of Chai transfered is determined when the transaction is included in a block). 
+For example, with the method `move(address sender, address receiver, uint value)`, the `sender` will transfer just enough Chai to ensure that the `receiver` gets an amount of Chai worth `value` Dai (the exact amount of Chai transfered is determined when the transaction is included in a block).
 
 Similarly, the `draw` function lets users withdraw Dai by specify the amount of Dai they wish to redeem.
 
@@ -31,18 +31,18 @@ Similarly, the `draw` function lets users withdraw Dai by specify the amount of 
 
 Paying gas for transactions that primarly deal with tokens creates unneccessary friction and positions tokens as second-class citizens in the Ethereum ecosystem. While there are many ways of dealing with this problem, both the Chai and the Dai contract provide a particularly simple and general solution by allowing approvals to be done with a signed message (known as a`permit`) in the ERC20 directly.
 
-While designing the `dai.sol` token contract, we experimented with various ways of performing token operations using signatures, until we realized that the only operation that had to be added to the contract directly was `permit`. 
+While designing the `dai.sol` token contract, we experimented with various ways of performing token operations using signatures, until we realized that the only operation that had to be added to the contract directly was `permit`.
 
-By allowing users to give allowance to arbitrary addresses by signing a `permit`, we allow abstract gasless operations without committing to a particular way of doing transfer-by-signature, trade-by-signature, or any other token interaction. We achieve full generality by just adding one function to the ERC20 standard. In fact, one of the reasons we felt compelled to write the `Chai` contract was because we wanted Savings Dai deposits to have this feature. 
+By allowing users to give allowance to arbitrary addresses by signing a `permit`, we allow abstract gasless operations without committing to a particular way of doing transfer-by-signature, trade-by-signature, or any other token interaction. We achieve full generality by just adding one function to the ERC20 standard. In fact, one of the reasons we felt compelled to write the `Chai` contract was because we wanted Savings Dai deposits to have this feature.
 
 Note that the interface at [chai.money](https://chai.money) does not yet support gasless transfers, but we are working on a something that demonstrates the full power of the `permit` pattern. Stay tuned for updates!
 
 ## Disclaimer
 
-The `Chai` contract has not yet undergone an audit. Although we believe it to be straightforward enough to not contain any surprises, remember that on the blockchain, you are responsible for your own actions.
+The deployed `Chai` contract has undergone a two day security review by Trail of Bits. No security related issues were found. The attestation of the review can be found [here](./Trail_Of_Bits-Letter_of_Attestation_Chai.pdf). Although we believe it to be straightforward enough to not contain any surprises, remember that on the blockchain, you are responsible for your own actions.
 
 ## Resources
-The contract source code can be found at [github.com/dapphub/chai](https://github.com/dapphub/chai). 
+The contract source code can be found at [github.com/dapphub/chai](https://github.com/dapphub/chai).
 The source code for chai.money is at [github.com/lucasvo/chui](https://github.com/lucasvo/chui).
 Everything distributed under the AGPL license.
 

@@ -14,17 +14,18 @@ export const join = async function() {
     const web3 = store.get('web3')
     const chai = store.get('chaiObject')
     const dai = store.get('daiObject')
-    const joinAmount = store.get('joinAmount').mul(10**18)
+    const joinAmount = store.get('joinAmount')
     const walletAddress = store.get('walletAddress')
     const allowance = store.get('daiAllowance')
+    console.log(joinAmount, allowance, joinAmount.cmp(allowance));
     if (joinAmount.cmp(allowance)>0) {
-      return dai.methods.approve(chai.options.address, "-1")
+      return dai.methods.approve(chai.options.address, web3.utils.toTwosComplement(-1))
         .send({from: walletAddress})
         .then(function () {
-          return chai.methods.join(walletAddress, joinAmount.toFixed()).send({from: walletAddress})
+          return chai.methods.join(walletAddress, joinAmount.mul(10**18).toFixed()).send({from: walletAddress})
         });
     }
-    return chai.methods.join(walletAddress, joinAmount.toFixed()).send({from: walletAddress})
+    return chai.methods.join(walletAddress, joinAmount.mul(10**18).toFixed()).send({from: walletAddress})
 }
 
 export const transfer = async function() {
